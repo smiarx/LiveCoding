@@ -1,0 +1,108 @@
+
+
+d1 $
+	slow 4 $ 
+    -- (# pan rand) $
+	(# cutoff (range 15 23 $ slow 8 $ tri)) $
+	(# velocity (range 1.3 4.4 $ rand)) $
+	(# attack (range 0.01 0.1 $ slow 7 $ sine^3)) $
+	-- arp (choose ["up", "down"]) $
+	-- arp "updown" $
+	-- somecycles (|+ n "5") $
+    whenmod 4 2 (|+ n "5") $
+	n ("[a3,a4,a3]" + "'min7")
+	# s "[juno60]"
+	# release 0.9
+	# attack 0.001
+	# decay 0.2
+	# susg 0.2
+	# velocity 0.4
+	-- # resonance (range 0.3 3.7 $ rand)
+	# resonance 3.6
+	# lfo 1 # lfoctf 2.5 # vib 0.1 # lfor (range 0.3 6.3 $ rand)
+	# legato 1
+	# pwm 0.79
+	# noise 0.3
+	# sub 0.3
+	# gain 1.2
+	# room 0.4
+    # hpf 20
+	# pan (range 0.2 0.8 $ slow 1 sine)
+	# delay 0.5 # delaytime 0.125 # lock 1 # delayfeedback 0.5
+    # orbit 1
+	-- # shape 0.6
+
+asap $ lfor 4.4 # lfo 1
+
+-- d2 $ 
+xfadeIn 2 4 $
+    jux (|* speed 1.04) $
+    sometimesBy 0.06 (|* speed (-1)) $
+    somecyclesBy 0.12 (within (0.75,1) $ stut 8 0.1 (-(1/16))) $
+    sometimesBy 0.1 (stut 2 0.4 (1/16)) $
+    degradeBy 0.07 $
+    every 3 (bite 8 "0 3 2 1 4 6 5 7") $
+    loopAt 2 $
+    striate 16 $ 
+    s "breaks79:4"
+    # gain 1.2
+    # hpf 100
+    # sidechain 1
+
+d3 $
+    somecycles (rev) $ 
+    (#cutoff (range 4 25 $ slow 4 sine)) $
+    (#pan (fast 2 $ sine)) $
+    -- sometimesBy 0.4 (ply 2) $
+    n ("a4*4" + (scale "minor" $
+          ("[0*4 -4*4]/8" +) $
+          -- stut' 2 (1/16) (+ 2) $       
+          arp "<up down up pinkyup>" $
+         "[0,2,4,6]"
+    ))
+    # s "plck"
+    # orbit 2
+    # room 0.6
+    # gain 1.2
+    # decay (range 1.2 4.5 $ rand)
+    # coeff 0.2
+
+
+d4 $
+    whenmod 16 8 (|+ n 5) $
+    -- off (1/12) (|+ n 12) $
+    n "a2 a3*2 <c3 d3> a2*3"
+    # s "dx7.bass"
+    # gain 1.7
+    # orbit 3
+
+
+d4 $
+    stut' 8 (1/8) (|* hpf 1.6) $
+    stack [
+        s "[808bd:1]/2"
+        # orbit 0
+        # sidechain 1
+        # hpf 40
+    ,
+        s "[~ 808sd:3]/2"
+        # hpf 40
+        # lpf 3000
+        # orbit 1
+        # gain 0.7
+   ]
+
+
+d5 $
+    off (1/8) (|+ up 12) $
+    slow 2 $
+    s "pluck"
+    # gain 1.2
+    >| up "0 2 ~ 3"
+    # orbit 3
+
+xfadeIn 1 16 $
+    n ("a4" + ("0(7,16)"))
+    # s "juno60"
+    # orbit 2
+    

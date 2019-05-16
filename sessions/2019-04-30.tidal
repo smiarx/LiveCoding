@@ -1,0 +1,213 @@
+
+
+-- d1 $ 
+-- interpolateIn 1 8 $ 
+clutchIn 1 8 $ 
+	someCycles (rev . (0.125 <~)) $
+	sometimesBy 0.2 (stut 2 0.9 (1/16)) $  
+	s "tabla(3,8, {0,1})"
+	# n "{0 1 <3 7> 4}%8"
+	# cut 1
+	# room 0.07
+	# sdch 1
+
+-- xfadeIn 1 8 $
+-- interpolateIn 2 64 $
+d4 $ 
+-- clutchIn 1 8 $ 
+	stack [
+		s "808bd:3*4" #orbit 2 # gain 1.2 # sidechain 1
+		-- s "808bd:3(7,16,{0,3})" #orbit 2 # gain 1.2 # sidechain 1
+		,
+		-- whenmod 8 7 ((0.25 <~) . (rev) .  (stut 8 0.4 (1/32))) $ 
+		s "[~ 808sd:3]*2"
+		# gain 1.2
+		# orbit 1
+		# room 0.2
+		,
+		s "hh*4 hh*2 hh*4 hh*4" # gain "[1 0.8]*8"
+	]
+	-- # delay 1 # delaytime 0.125 # delayfeedback 0.9
+	-- # hpf 800
+
+
+
+d2 $	
+-- interpolateIn 2 16 $
+	somecyclesBy 0.9 (spread scramble [8,16]) $ 
+	s "ade(7,16, {0,3})" # cut 2
+	#n "{4 2 3 <5 2> 6}%16"
+	|* speed ("{0.9 1.2 0.8}%8" * "{1.2 3.2 1.3}%1")
+	# orbit 1
+	# pan (rand)
+	# delay 0.5 # delaytime "[0.125, 0.25]" # lock 1 # delayfeedback "{0.7!7 0.9}%1"
+	# cutoff (slow 32 $ range 300 2000 $ sine)
+	# room 0.2
+	# gain 0.9
+
+-- d3 $
+-- interpolateIn 3 16 $
+xfadeIn 3 16 $
+	somecyclesBy 0.2 (
+		((#delay 0.9) . (#delayfeedback 0.99)) .
+		(within (0.1,1) (const silence))
+	) $ 
+	somecycles (rev) $ 
+	sometimesBy 0.2 (|* speed (-1)) $
+	somecycles (bite 8 "<1*8 2*8>") $ 
+	n (run 9) 
+	# s "alphabet"
+	|* speed 1
+	# cut 3
+	# delay 0 # delaytime 0.125
+	# orbit 3
+	# gain 0.8
+	# pan (rand)
+
+-- d3 $
+xfadeIn 5 16 $ 
+	superimpose (|- n 24) $
+	somecycles (rev) $ 
+	sometimesBy 0.1 (|+ n (7)) $ 
+	stut 2 0.9 (1/16) $
+	bite 16 "{0 2 3 1}%1(7,16,{0,3})" $ 
+	arpg $ n "a3'min7*4"
+	# s "dx7.pia"
+	# orbit 0
+	# room 0.02
+	# velocity 10.3
+	# cutoff (slow 32 $ range 15 40 $ sine)
+	# resonance 0.6
+	# delay 0.8 # delaytime 0.125 # delayfeedback 0.5 # lock 1
+
+
+
+-------------------------------------------------------------
+
+setcps (120/60/4)
+
+d1 $
+-- xfadeIn 1 4 $ 
+-- interpolateIn 1 32 $
+	-- superimpose  (|* speed 2) $ 
+	-- bite 4 "{0}%1(3,16, {0,2})" $ 
+	striate 2 $
+	loopAt 8 $
+	bite 8 "[0 1 0 [3*3 5]]*2" $ 
+	striate 8 $ 
+	s "<jttof jttof*2 jttof jttof*3>"
+	-- s "jttof"
+	# gain 1.2
+	# room 0.8
+	|* speed 1
+	# cut 1
+	-- # gain 0
+	# hpf 1700
+
+d2 $
+-- xfadeIn 2 8 $
+-- interpolateIn 2 16 $ 
+	ply 2 $
+	whenmod 8 6 (within (0.75,1) rev) $ 
+	somecyclesBy 0.4 (within (0.75,1) (fast 2)) $
+	sometimesBy 0.1 (|* speed (-1)) $ 
+	sometimesBy 0.2 (superimpose (|* speed 1.2)) $
+	loopAt 2 $
+	striate 16 $ 
+	s "breaks125"
+	|* speed 1.5
+	# orbit 1
+	# sdch 1
+	# room 0.08
+	|* gain 0.9
+	-- # delay 0.1 # delaytime (1/16) # lock 1 # delayfeedback 0.5
+	-- # cutoff 800
+	-- # hpf 2000
+	# phasr 0.2 # phasfb 0.5 # phasdp 0.01
+
+d3 $
+-- xfadeIn 3 32 $ 
+	(# cutoff (slow 16 $ range 400 4300 $ sine)) $
+	superimpose (
+		(superimpose (|+ n "[7,12,24]")) .
+		(arp "[up pinkyup down]/3") .
+		(|+n 12) . (|+ n "<'maj7 'min7 'min7 'min7>").
+		(ply 4)
+	) $
+	-- n "<c3 ~ d3 ~ a2  ~ e3 ~>"
+	-- n "{c3 c3 c3*2 c3 f3 f3*3 e3 f3 g3 g3 a3*2 b3}%1"
+	n "{[c2,c3] c4*2 c2 f3 f3*3 [e2,e3] f3*5}%1"
+	# gain 1.0
+	# s "supersaw"
+	# resonance 0.3
+	-- # hpf 10
+	# room 0.36
+
+d1 $
+	slow "<1 1 2 4 4>" $ 
+	sometimes (#delay 0.6) $
+	s "chin(7,16, {0,1})"
+	# n "{1 2 3 7 2}%6"
+	# pan (rand)
+	# gain 0.9
+	# room 0.4
+	# orbit 2
+	# cutoff 3000
+	|* speed 0.7
+	|* speed "<0.99 1.02 1.04 0.87>"
+	# delaytime "[0.125 0.25 0.33]" # delayfeedback 0.8
+	# hpf 3200
+
+
+-----------------------------------------
+
+
+
+-- d5 $
+-- xfadeIn 5 8 $ 
+interpolateIn 5 32 $
+	(# cutoff (slow 4 $ range 12 38 $ sine)) $
+	(# resonance (slow 4 $ range 3.97 0.5 $ sine)) $
+	(# velocity (range 0.2 1 $ rand)) $
+	-- superimpose (|* n "[0.99,1.01]") $
+	superimpose (
+		(|* gain 0.7) .
+		(superimpose (|+ n "[7,12,24]")) .
+		(arp "[up pinkyup down]/3") .
+		(|+n 12) . (|+ n "<'maj7 'min7 'min7 'min7>").
+		(ply 2)
+	) $
+	ply 2 $
+	n "<c3 ~ d3 ~ a2  ~ e3 ~>"
+	-- n "{c3 c3 c3*2 c3 f3 f3*3 e3 f3 g3 g3 a3*2 b3}%1"
+	-- n "{[c2 c3] c4*2 c2 f3 f3*3 [e2 e3] f3*5}%1"
+	# s "dx7.pof"
+	# resonance (0.2)
+	# phasr 1.2 # phasdp 1.2 # phasfb 0.96
+	-- # gain 1.8
+	# orbit 3
+	# gain 1
+	-- # delay 1 # delayfeedback 0.9 # delaytime 0.25 # lock 1
+	# legato 0.8
+	# hpf 600
+	# room 0.1
+
+
+
+
+-----------------------------------------------
+
+
+d1 $
+	stack [
+		foldEvery [2,3,5,7] ((0.125 <~). rev . (|* speed 0.99)) $ 
+		foldEvery [2,3,4] (rev . (0.125 <~) . (stut 2 0.9 (1/16))) $ 
+		sometimesBy 0.1 ((|* speed (-1)) .(0.125 <~)) $
+		-- off (1/16) (|* speed 1.7) $
+		-- sometimes (ply 2) $
+		s "[[~ 808sd:1]*2, ~ ~ ~ [~ <808hc:0*2 808ht:7>*2], 808oh:0(5,16, {0,1,2})]"
+		# phaserrate 8.3 # phaserdepth 0.03 # phasfb 0.2
+		# room 0.3
+		,
+		s "808bd:2*4" # orbit 1 # sdch 1 # gain 1.2
+]

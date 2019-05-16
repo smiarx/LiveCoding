@@ -1,0 +1,104 @@
+
+
+
+d1 $ 
+	fast 1 $
+	sometimes (off (1/4) (|+ up "12")) $ 
+	superimpose ((0.125 <~) . (|*speed (-1))) $ 
+	(# pan (range 0.3 0.8 $ slow 4 sine)) $ 
+	slice 4 "0 ~ ~ 0" $ 
+	loopAt 8 $ 
+	-- shuffle 8 $ 
+	chop 32 $ 
+	s "jttof"
+	# cutoff (range 100 1600 $ slow 8 $ sine)
+	-- # cutoff 600
+	-- # resonance 0.5
+	# gain 0.8
+	# crush 6
+	# room ("<0.6 0.7 0.4 0.9>" * 0.8)
+	# hpf 200
+
+d2 $
+	sometimesBy 0.7 (off (1/16) (|* speed 1.4)) $ 
+	within (0,0.15) ((stut 9 0.6 (1/16)). ((# orbit 3) . (#sdch 1))) $ 
+	within (0.1,1) (degradeBy 0.1) $ 
+	loopAt 2 $ 
+	splice 16 "{<0> <0 1> <5 3> <4 [7 9]> [10,12] 0 7 [15 12]}%16" $
+	s "{breaks157 breaks165}%24"	
+	# cutoff 1800
+	# hpf 1800
+	# orbit 2
+
+d4 $ 
+	stack [
+		s "808bd:4(4,16, [0])" # orbit 3 # sdch 1
+		# n "{4 3 4 1}%2"
+		# gain 1.2
+		,
+		every 2 (within (0.75,1) ((0.25 <~) . (rev))) $ 
+		stut "<6 2>" 0.9 (1/16) $ 
+		s "~ 808sd:3(3,8)" # gain 0.8
+		# orbit 1
+		# room 1.0
+		,
+		foldEvery [2,3,4] (|* speed 1.1) $ 
+		s "808 ~ ~ 808(3,4)"
+		# n "{0 2 1 2 4}%8"
+		# pan "{0.3 0.8 0.2}%16"
+		|* speed "1.2 2.3 0.5"
+		# orbit 1
+		# room 1.0
+	]
+	-- # hpf 8000
+
+
+d3 $
+	every 4 (rev) $ 
+	-- spread (stut 3 0.7) [(1/16), (1/8)] $ 
+	-- someCyclesBy 1.3 (within (0.75,1) (fast 2)) $
+	n "{3 1 2 3}%5"
+	>| s "chin(7,16, {0})"
+	|* pan (rand)
+	|* speed "{1.8 1.2 2.3}%8"
+	# crush 2.3
+	# cutoff (slow 64 $ range 100 800 $ sine)
+	# resonance 0.3
+	# room 0.9
+
+
+d1 $ 
+	-- (|+ n "{0 12 -12}%16") $ 
+	off (1/16) (|+ n 12) $ 
+	linger 0.75 $ 
+	jux (|+ n "{12 0 -12}%16") $ 
+	slow 4 $
+	arp "updown" $ 
+	n "a4'min7*4 c4'maj7*4 d4'min7*4 f4'maj7*4"
+	# s "juno60"
+	# legato 0.8
+	# pan rand
+	# gain 0.8
+	# orbit 1
+	# room 0.8
+	# delay 0.3 # delaytime 0.125 # lock 1 # delayfeedback 0.87
+    # hpf 500
+
+d2 $
+	within (0,0.2)  (#orbit 3) $
+	sometimesBy 0.2 (spread (stut' 3 (1/16)) [(* speed 2), (# pan 0.2), (# pan 0.8)]) $ 
+	somecycles (within (0.75, 1) ((linger 0.25) . (0.25 <~))) $ 
+	loopAt 1 $ 
+	chop 16 $
+	s "breaks165"
+	-- # hpf 800
+
+d4 $
+	off (1/8) (|+n 7) $ 
+	n "[a2 c3 d3 f3]/4"
+	# gain 1.3
+	# legato 0.8
+	# s "juno60"
+	-- # hpf 500
+
+d3 $ cps (slow 32 $ range 0.001 0.9 $ sine)

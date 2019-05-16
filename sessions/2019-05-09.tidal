@@ -1,0 +1,190 @@
+
+let scale = getScale (scaleTable ++ [("bayati", [0,1.65,3,5,7,8.65,10])
+                                    ])
+
+
+-- d3 $
+xfadeIn 3 16 $ 
+	somecycles (within (0.75,1) (stut 4 0.5 (-(1/16)))) $
+	sometimesBy 0.12 (|* speed (-1)) $
+	sometimesBy 0.2 (stut 4 0.8 (1/32)) $
+	degradeBy 0.1 $
+	loopAt 8 $
+	striate 32 $ 
+	s "breaks79:7"
+	# orbit 0
+	# sidechain 1
+
+d1 $
+	somecycles (scramble 8) $
+	n "0 1 2 3 4 5 6 7"
+	# s "tabla"
+	# cut 1
+	# pan (rand)
+	# hpf 300
+	# room 0.3
+	# orbit 2
+
+d3 $
+	somecycles (within (0.5,1) $ stut 8 0.02 (-(1/32))) $
+	s "808bd:2*2"
+	# gain 1.2
+	# orbit 0
+	# sidechain 1
+
+d2 $
+	somecyclesBy 0.98 (((# delay 0.5)) . (+| n "0 ~@7")) $
+	(# pan (range 0.3 0.7 $ rand)) $
+	-- jux (|* n 1.02) $
+	n ("d3" + (
+	scale "bayati" $
+		-- off (1/4) (+ 2) $
+		stack $ [
+			(degradeBy 0.02) .
+			((8 + "[0 1 2 3*2 7 <5 4> <2 3*2> 1]*1.5") +),
+			id
+		] <*>
+		[
+		"[0 2]/16" + 
+		"<[0 _ _ 1] 4 [3 _ _ 2] <1 4*2>>*2"
+		]
+	))
+	# s "juno60"
+	# velocity 2.3
+	# gain 1.3
+	# cutoff (range 10 40 $ slow 8 sine)
+	# resonance 3.2
+	# phasr 0.8 # phasfb 0.4
+	# delaytime 0.125 # delayfeedback 0.76 # lock 1
+	# room 0.4
+	# orbit 1
+	#legato 0.8
+
+d4 $
+	-- sometimes (# velocity 3.0) $
+	(# velocity (range 0.8 4.5 $ sine)) $
+	n (
+		scale "bayati" $
+			somecyclesBy 0.212 (superimpose ((arp "updown" "[0, 1, 2, 3, 4, 5, 6, 7]*2") +)) $
+			"0 1 <2 4> 1"
+	)
+	# s "dx7.pof"
+	# cutoff (range 23 50 $ slow 32 sine)
+	# pan (slow 8 $ sine)
+	# hpf 900
+	# gain 1.0
+	# room 0.3
+	# orbit 3
+
+
+
+--------------------------------------------------
+
+
+setcps (80/60/4)
+
+-- d1 $
+xfadeIn 4 $
+	-- silence
+	somecyclesBy 0.3 (fast 2) $
+	sometimesBy 0.3 (|* speed (-1)) $
+	somecycles (scramble 4) $ 
+	n (run 8)
+	# s "tabla"
+	# orbit 1
+	# room 0.4
+	# cut 1
+
+d2 $
+	stack [
+		s "808bd:3*4"
+		# gain 1.2
+		# orbit 0
+		# sidechain 1
+		,
+		somecyclesBy 0.3 (stut 8 (0.5) (-(1/16))) $ 
+		s "~ 808sd:3"
+		# orbit 1
+		,
+		s "hh:0*8"
+		# gain "[0.9 0.7]*4"
+	]
+
+d2 $
+-- xfadeIn 2 4 $
+	-- somecyclesBy 0.3 (within (0,0.25) rev) $
+	-- sometimesBy 0.2 (ply 2) $
+	-- sometimesBy 0.1 (|* speed (-1)) $ 
+	somecycles (within (0.75,1) (stut 4 0.2 (-(1/16)))) $
+	loopAt 1 $
+	striate 16 $
+	s "breaks80:2"
+	# gain 1.1
+	# sidechain 1
+	# room 0
+
+
+xfadeIn 3 1 $
+	-- sometimesBy 0.7 (ply 2) $
+	-- off (1/16) (|+ n "12") $
+	((arp "updown pinkyup") . (|+ n "[0, 24]") . (|+ n "['min7 'maj7]")) $
+	s "juno60(4,4)"
+	# n "[[d3 f3]*4 [e3 a3]*4]/8"
+	# velocity 2.3
+	# room 0.2
+	# phasr 0.8 # phasfb 0.3
+	# cutoff ( range 25 35 $ slow 4 $ sine)
+	# gain 0.2
+	
+
+d3 $
+-- xfadeIn 3 16 $
+	n ("d3" + (scale "bayati" $
+		somecyclesBy 0.4 (off (1/16) (+2)) $
+		sometimes (ply 4) $
+		"<0 0 0 0 [0 1 2 [2 1]]>"
+	))
+	# s "dx7.bass"
+	# velocity 17.5
+	# gain 1.3
+	# orbit 2
+	# room 0.2
+	# cutoff (range 18 32 $ slow 16 $ sine)
+	# resonance 0.07
+
+
+-- d4 $
+-- xfadeIn 4 16 $
+interpolateIn 4 8 $
+	somecyclesBy 0.2 ((#delay 1) . (+| n "0 ~@15")) $
+	sometimes (|+ velocity 2.0) $
+	(# velocity (range 0.8 4.5 $ sine)) $
+	n (
+		scale "bayati" $
+			off (1/8) (+ 3) $
+			somecyclesBy 0.2 (superimpose ((arp "updown" "[0, 1, 2, 3, 4, 5]*2") +)) $
+			"<[0 1 <2 4> 1] [1 2 3 [7 6]]>"
+	)
+	# s "dx7.pof"
+	# cutoff (range 23 39 $ slow 32 sine)
+	# pan (slow 4 $ sine)
+	# hpf 4000
+	-- # delay 0.7
+	# delaytime (choose [1/16, 1/8]) # delayfeedback 0.75 # lock 1
+	# gain 1.0
+	# room 0.5
+	# orbit 3
+
+
+-- d4 $
+xfadeIn 4 8 $
+	(# accelerate (range (-0.7) 0.4 $ rand) ) $
+	(|* speed (range 0.8 1.3 $ rand)) $
+	(# pan (rand)) $
+	degradeBy 0.3 $
+	s "chin(7,16, {1,3,5})"
+	# n "{2 4 8 3*2 9 8}%5"
+	# gain 0.8
+	# hpf 900
+	# delay 0.6 # delaytime "[0.125 0.25]/2" # delayfeedback 0.7 # lock 1 
+	# orbit 3

@@ -1,0 +1,99 @@
+
+d1 $
+	superimpose (|* speed 1.01) $ 
+	off (1/16) (|* speed (-1)) $
+	slow 2 $ 
+	s "chin(3,16, {0, 4, 7})"
+	# n "{1 <4 5 7> <3 2> 9}%6"
+	# gain 0.75
+	# cutoff (slow 32 $ range 200 4000 $ sine)
+	-- |* cutoff (0.9)
+	# orbit 2
+	-- # delay 0.3 # delayfeedback 0.8 # delaytime "[0.25 0.5]" # lock 1
+	-- # delay 0.9 # delayfeedback 1.03 # delaytime "[0.25 0.5 0.75 0.33]" # lock 1
+	# resonance 0.1
+	-- |* speed 1
+	# hpf 3000
+	# pan (rand)
+	# room "0.2"
+
+
+
+d1 $ silence
+
+d2 $
+	somecyclesBy 0.6 (chunk 8 (rev . (fast 2))) $ 
+	stack [
+		within (0.1,1) (degradeBy 0.03) $ 
+		stack [
+			s "808bd:4"
+			# gain 1.2
+			# orbit 3 # sdch 1
+			,
+			n "{a2 a2 g2 <c3 c3 d3 g3>}%3"
+			-- n "<{a2 a2 g2 c3}%5 {g2 g2 d2 c3}%5>"
+			# s "supersaw"
+			# gain 0.9
+			# legato 1.4
+			|* cutoff (slow 8 $ range 200 1100 $ sine)
+			-- # cutoff 1
+			# resonance 0.05
+			-- # hpf 300
+		]
+		*| speed "1(7,16, {0,3})"
+		-- # hpf 00
+	,
+		someCycles (within (0.5,1) (rev)) $ 
+		off (1/16) (
+			(sometimesBy 0.7 (stut 4 0.8 (1/16))) .
+			(|*speed "< 0.8 3.4 7.6>"))
+		 $ 
+		s "[~ 808sd:1] [~ 808sd:1]"
+		# gain 0.9
+	,	
+		somecycles (within (0.75,1) (fast (3/2))) $ 
+		juxBy 0.5 ((1/16) ~>) $ 
+		s "hh*8"
+		# gain "[0.9 0.8]*8"
+		-- # gain 0
+	,
+		off (1/16) (# n 5) $ 
+		s "808:2(3,16, {0, 7, 5})"
+		# gain (range 0.5 0.9 $ rand)
+		# speed "{1.2 2.2 0.8}%8"
+		|* speed "<0.7 0.7 0.7 0.53>"
+		# orbit 0
+		# room 0.2
+]
+
+
+
+d3 $
+	whenmod 8 7 (ply 2) $ 
+	-- off (1/16) (+ n 12) $ 
+	(|* pan  sine) $
+	ply 4 $ 
+	arpg $ 
+	n ("<a4'min7>")
+	# s "supermandolin"
+	# cutoff 3000
+	# orbit 1
+	# delay 0.3 # delayfeedback 0.9 # delaytime "[0.25 0.5]" # lock 1
+
+d3 $ silence
+
+
+d1 $ 
+	within (0.75,1) (stut 3 0.8 (1/16)) $
+	s "808bd(3,16, {0,1})"
+
+hush
+
+
+d1 $ silence
+
+d1 $
+	off (1/16) ( off (1/16) (|* speed (range 0.4 1.3 rand))) $ 
+	s "chin(7,16, {0,3})"
+	-- s "chin(7,16, {0, 9})" 
+	# n "{3 6 7 9}%10" 

@@ -1,0 +1,33 @@
+
+d1 $
+	(# cutoff (slow 16 $ range 600 8200 (sine))) $
+	within (0.25,0.5) (off (1/8) (|* speed 2)) $
+	(|* speed (-1)) $ 
+	(# pan (range 0 1 rand)) $ 
+	slow 2 $
+	bite 8 "<0 0 0 3>" $ -- "<0 2>(7,16, {0})" $ 
+	loopAt 2 $ 
+	striate  "{32}%8" $ 
+	s "jttof"
+	# orbit 1
+	# delay 0.6 |*| delaytime "0.125 0.25 0.075 0.333" # delayfeedback 0.6 # lock 1
+	# room 0.8
+	# resonance 0.4
+	* speed (0.20 * "1 2")
+
+d2 $
+	stack [
+		stut 2 0.1 (1/12) $
+		s "808bd(5,16)"
+		# n 1
+		# gain 1.2
+		# orbit 3
+		# sdch 1
+	,
+		s "~ <808sd:3*2 ~>"
+	,
+		stut' 16 (1/16) ((|*gain 0.95) . (|* speed "{1.05 0.94}%4")) $ 
+		s "hh"
+		|* speed 0.8
+		# lpf 8200
+	]

@@ -1,0 +1,33 @@
+-- Bootstrap tidal
+:script ~/.vim/bundle/vim-tidal/Tidal.ghci
+
+-- Extensions
+import Sound.Tidal.Extensions
+
+
+let lpf        = Sound.Tidal.Extensions.lpf
+    lfo        = pI "lfo"
+    lforate    = pF "lforate"
+    lfor       = lforate
+    lfocutoff  = pF "lfocutoff"
+    lfoctf     = lfocutoff
+    vibrato    = pF "vibrato"
+    vib        = vibrato
+    sustaingain= pF "sustaingain"
+    susg       = sustaingain
+    noise      = pF "noise"
+    sub        = pF "sub"
+    pwm        = pF "pwm"
+    coeff      = pF "coeff"
+
+
+:{
+let scale = getScale (scaleTable ++ [("bayati", [0,1.5,3,5,7,8.5,10]),
+                                     ("egyptian", [0,1,4,5,7,8,10])
+                                    ])
+:}
+
+
+-- TTS
+let text   = pS "text"
+

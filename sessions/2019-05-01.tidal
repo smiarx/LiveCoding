@@ -1,0 +1,59 @@
+
+
+d1 $
+	slow 2 $ 
+	somecyclesBy 1 (rev) $ 
+	slow 2 $ 
+	-- sometimes (# s "dx7.pia") $
+	stack $
+	[
+		(sometimesBy 0.5 (|+ n (choose [-12,12]))) .
+		(|+ cutoff 30) . (|* gain 1.2) . (ply "2 3 2 4") .
+		(ply 4) .
+		mono
+		,
+		(# hpf 90) .
+		(ply 2) .
+		(|* pan rand) .
+		(|+ cutoff (range 1 52 $ slow 8 $ sine)) .
+		(arp "[down]") . (|+ n 24 )
+		-- . (somecyclesBy 0.6 (degradeBy 0.6))
+	] <*>
+	[
+		-- n "g4'maj7 b3'min7*2 [d4'maj,d5] e4'min7*2"
+		n "g3'maj7 <b3'min7 a3'min7>*2 [d3'maj,d5] e3'min7*2"
+		# legato 1
+		# s "dx7.pof"
+		-- # phasr 0.8 # phasfb 0.2 # phasdp 0.3
+		# resonance 0.42
+		# room 0.2
+		# delay 1 # delaytime 0.25 # delayfb 0.6
+		-- # hpf 2000
+	]
+
+d2 $ 
+	stack [
+		stut 2 0.2 (1/12) $ 
+		s "808bd(4,12)"
+		# orbit 1
+		# sdch 1
+		,
+		s "808oh/2"
+	]
+
+d1 $ s "808oh:0" 
+	# delay 1 |>| delaytime (segment 0 $ slow 4 $ range 0.03 1.0 $ sine) # delayfb 1.03
+
+
+
+--------------------------------------------------
+
+
+setcps (76/60/4)
+
+
+d1 $
+	someCyclesBy 0.8 ((0.125 ~>) . rev) $
+	loopAt 1 $ 
+	striate 8 $
+	s "breaks80:2"

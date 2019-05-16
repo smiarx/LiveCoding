@@ -1,0 +1,123 @@
+setcps (95/60/4)
+
+
+d1
+	$ stack [
+		every 2 (within (0.0,0.5) ((fast 2))) $ 
+		(|* gain (range 0.8 1.1 $ slow 32 sine)) $ 
+		jux (((1/16) ~>) . (+ n 12) . (* gain 0.7)) $
+		jux (0.25 ~>) $
+		(# pan (rand)) $ 
+		strum 0.08 $
+		-- (ply 4) $
+		-- n "<g4'maj7 fs4'min7 e4'min7 fs4'min7>"
+		n ("[a4!8 d5!8]/16" + (slow 4 $ "'min 'dim7 'maj 'maj7"))
+		-- n "gs5'maj7"
+		# s "pia"
+		# orbit 2
+		# legato 0.98
+		-- # attack 0.3
+		-- # hpf 60
+		# delay 0.3 # delaytime (0.25) # delayfeedback 0.2 # lock 1
+		-- # delay 1.0 # delaytime 0.99 # delayfeedback 0.99
+		# gain 0.8
+		# room 0.6
+	,
+		-- const "" $ 
+		every 4 (stut 3 (1/12) 0.9) $ 
+		s "{bd ~ bd}%4" # orbit 3
+		# n 4
+		# gain 0.9
+		# hpf 20
+	,
+		-- const "" $
+		-- whenmod 8 6 (within (0.75,1) ((0.125 <~) . rev . (fast 1))) $ 
+		n "[~ 4(<2 3 5>,8, {0 3 2}%4)]"
+		# s "sn"
+		# gain (range 0.6 0.85 $ rand) 
+		# gain 0.8
+		# orbit 1
+		# bpf 6000
+		# resonance 0.5
+		# room 0.2
+		-- # delay 0.6 # delaytime "[0.15 0.2 0.125 0.25]" # delayfeedback 0.8 # lock 1
+	,
+		-- const ""$
+		foldEvery [2,3] (within (0.75,1) $ fast 2) $ 
+		s "hh*8"
+		* gain ("[0.7 1]*4" * 0.4 + 0.5)
+		# pan (slow 4 sine)
+		# room 0.4
+	,
+		-- const "" $
+		-- n "<g3 fs3 e3 fs3>"
+		jux (*speed 1.03)$ 
+		sometimesBy 0.3 ((+ n "[7 6 7 7]/4")) $ 
+		rarely (const "") $ 
+		rarely  (+ n 12) $ 
+		n "[a2!8 d2!8]/16"
+		|>| s "supersaw(5,8, {2,4,5}%1)"
+		# legato (range 0.25 0.9 $ rand)
+		# cutoff (slow 32 $ range 100 900 $ sine)
+		# resonance 0.2
+		# gain 0.4
+		# orbit 0
+		# room 0.3
+		-- |>| hpf "900"
+	]
+
+
+setcps (100/60/4)
+
+d2 $
+	stack [
+		foldEvery [2,3,5] ((sometimesBy 0.7 ( (degradeBy 0.1) . (within (0.5,75) $ fast 2)))) $ 
+		s "bd:3*4" # orbit 3
+		,
+		ply 1 $ 
+		s "~ [cp [~ cp?]]*2"
+		* speed 0.6
+		# orbit 0
+		# room "0.3"
+	]
+
+
+hush
+
+
+import 		Data.List (groupBy)
+
+import		Data.Maybe (mapMaybe)
+
+import		Sound.Tidal.Utils (enumerate)
+
+strum "0.01 0.02" $ n "a'min"
+
+
+strum :: Pattern Time -> Pattern a -> Pattern a
+strum tp p = innerJoin $ (\tv -> _strum tv p) <$> tp
+
+_strum :: Time -> Pattern a -> Pattern a
+_strum t p = withEvents munge p
+  where munge es = concatMap spreadOut (groupBy (\a b -> whole a == whole b) es)
+        spreadOut xs = mapMaybe (\(n, x) -> shiftIt n x) $ enumerate xs
+        shiftIt n (Event (Arc s e) a' v) =
+          do
+            a'' <- subArc (Arc newS e) a'
+            return (Event (Arc newS e) a'' v)
+          where newS = s + (t * fromIntegral n)
+
+
+
+
+d1 $ slow 4 $ stack	[
+	s "piano" # pan 1
+	,
+	s "dirt_piano" # pan 0 # gain 0.9
+]
+
+
+hush
+
+
+d1 $ strum 0.06 $ slow 4 $ n "a4'min7" # s "dirt_piano" # gain (range 0.7

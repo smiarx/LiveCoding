@@ -1,0 +1,142 @@
+
+unsolo 1
+
+d1 $
+    somecyclesBy 0.9 ((#delay 0.9) . (>| n "0 ~")) $
+    degradeBy 0.2 $
+    text "[everybody hello]*12"
+    # s "tts"
+    # pan (rand)
+    # speed ((*0.8) $ range 0.6 0.9 $ rand)
+    -- # begin (range 0.0 0.7 $ 12 <~ rand)
+    # begin 0.26
+    # release 0.1
+    -- # release (range 0.02 0.1 $ 16 <~ rand)
+    -- # cut 1
+    # accelerate (-0.1)
+    # delaytime "0.075" # lock 1 # delayfb 0.99
+    # cutoff (range 1200 4000 $ slow 4 sine)
+    # resonance 0.3
+    -- # hpf 800
+    # gain 1.5
+    # hpf 400
+    # room 0.2
+    # orbit 3
+
+-- d2 $
+xfadeIn 2 16 $
+    somecycles (within (0.75,1)  rev) $
+    stack [
+        -- const silence $
+        degradeBy 0.1 $
+        s "808bd:2(7,16, {0,3})"
+        # gain 1.2
+        # orbit 0
+        # sidechain 1
+       ,
+        somecycles (stut 8 0.8 (-(1/16))) $  
+        sometimesBy 0.1 (|* speed  (-1)) $
+        s "[~ 808sd:1]"
+        # orbit 1
+        # room 0.1
+       ,
+        s "808oh*16"
+        # orbit 2
+        |* gain 0.7
+        |* gain "[0.7 1]*8"
+    ]
+    -- # hpf 1200
+   
+-- d3 $ 
+xfadeIn 3 8 $ 
+    whenmod 8 4 (|+ n 8) $ 
+    jux (|* n 1.03) $
+    -- somecycles (within (0.5,1) $ stut 3 0.9 (1/12)) $
+    sometimesBy 0.2 (|+ n 12) $
+    -- n "a2*3 _ c3*2 <a2 a2 g2 a2(4,16)>"
+    n "a2(7,16,{2,3})"
+    # s "dx7.bass"
+    # velocity (range 1 4.3 rand)
+    # gain 1.2
+    # cutoff (range 12 25 $ slow 8 sine)
+    # orbit 2
+    -- # hpf 800
+
+d4 $
+-- xfadeIn 4  8 $
+    -- slow 4 $ 
+    whenmod 16 14 (# hpf 1200) $
+    jux (|* n (1.01)) $
+    whenmod 16 8 (|+ n (8)) $
+    superimpose (
+        somecycles (slow 3 . arp "up") .
+        (|+ n "[[12'min7,24'min7] [12,24] 12'maj7 [12 15]*8]/8")
+    ) $
+    (# pan (rand) ) $ 
+    n "a2(7,16, {2,3})"
+    # s "juno60"
+    # velocity 6.4
+    # cutoff (range 35 45 $ slow 16 sine)
+    # resonance 1.3
+    # orbit 3
+    # lfor (range 1.2 8.3 $ rand) # vibrato (range 0 0.3 $  rand)
+    # room 0.3
+    -- # hpf 2000
+
+setcps (120 / 60/ 4)
+
+------------------------------
+
+
+setcps (71 / 60/ 7)
+
+d1 $
+    -- ( #pan rand) $
+    -- sometimesBy 0.2 (|* speed (-1)) $
+    -- bite 28 (degradeBy 0.05 $ fast 4 $ ply 7  $ "<0 18 12 22>") $
+    loopAt 1 $
+    striate 14 $
+    n "4"
+    # s "mwsh"
+    -- # cut 143
+    # room 0.3
+    -- # hpf 200
+    # orbit 2
+
+d2 $
+    stack [
+        s "808bd:2(5,14,{0,3})"
+        # orbit 0
+        # sidechain 1
+        ,
+        s "808sd:1(2,14,4)"
+        # orbit 1
+        ,
+        s "808oh*28"
+        # orbit 1
+        |* gain "[1 0.8]*14"
+    ]
+
+
+let scale = getScale (scaleTable ++ [("bayati", [0,1.5,3,5,7,8.5,10]),
+                                     ("pipi", [0,1,4,5,7,8,10])
+                                    ])
+
+d3 $
+    sometimes (#resonance 2.6) $
+    (# pan (range 0.3 0.7 $ rand)) $
+    (|+ n "[0]") $
+    n ("g3" + (scale "pipi" $ 
+    -- whenmod 8 4 (+ 3) $
+    "[0 _ [-1 0] 0 [0 -1] [0 2] 1]"))
+    # s "juno60"
+    # sub 1
+    # noise 0.3
+    # pwm 0.7
+    # velocity 2.6
+    # lfor 4.3 # vibrato 0.1 # lfoctf 1.4
+    # cutoff (range 15 32 $ slow 4 sine)
+    # resonance 0.8
+    # hpf 80
+    # orbit 3
+

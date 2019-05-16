@@ -1,0 +1,78 @@
+d1 $ 
+	sometimes (off (1/16) (id)) $
+	(#pan rand) $ 
+	off (1/16) (((1/8)<~) . (*speed (-1))) $ 
+	-- chunk 8 (* speed 1.2) $ 
+	slow 2 $ 
+	off (1/16) (*speed 3) $ 
+	off (1/8) (|+ n "2") $ 
+	s "chin(3,16, {0, [5, 9], 13})" # (foldEvery [2,3,5] ((0.25 <~)) $  n "{<1 6 2> <3 7> 4}%7") # speed 1
+	-- s "chin*6" |>| n "4 3 4 4"
+	# gain 0.7
+	# lpf (slow 32 $ range 300 7000 $ sine)
+	# resonance 0.05
+	# orbit 1
+	# delay 0.4 # delaytime "<0.125 0.25>" # delayfeedback 0.6 # lock 1
+	-- # room 0.8
+	# hpf 1000
+
+
+d1 $ silence
+
+d2 $ 
+	stack [
+		-- someCyclesBy 0.8 (fast 4) $ 
+		often (+ up "5") $ 
+		s  "808(7,16, {2,9})"
+		# pan (slow 4 $ sine )
+		|* gain 0.8
+		-- |* speed "0.5(3,8) <1 0.25 0.75>(3,8)"
+		# orbit 2
+		-- # delay 0.5 # delaytime 0.125 # delayfeedback 0.7 # lock 1
+		,
+		-- sometimesBy 0.2 (stut 5 0.7 (1/16/5)) $
+		s "808bd:9(7,16, {0,3})" # orbit 3
+		# gain 1.0
+		# hpf 400
+		,
+		-- stut' 3 (1/16) ((*speed 1.04) . (*gain 0.8)) $ 
+		-- every 4 ((0.5 <~) . rev . (stut 4 0.6 (1/16))) $
+		-- off (1/16) ((# crush 2) . (|*speed 0.5)) $
+		s "~ [808sd:6](3,[8 16], [0 0 0 2])"
+		# gain (slow 32 $ range 0.7 1.04 $ sine)
+		|* speed "0.3 0.5 <0.7 0.9> <0.4 0.6>"
+		-- # gain 0.0
+		,
+		jux (*speed 1.2) $
+		someCycles (within (0.75, 1) $ fast (choose [2.5, 1.5]))  $
+		s "hh*16"
+		# gain 0.8
+		# pan (rand)
+	]
+	-- # hpf 1200
+	# room 1.2
+
+d3 $ 
+	sometimesBy 0.3 (within (0.5,1.0) (off (1/8)  (+ n  12))) $ 
+	s "supersaw(7,8, {0, 6})"
+	# n "<as2 as2  es3 f3>"
+	# cutoff (slow 32 $ range 200 3200 $ sine)
+	# resonance 0.0
+	# gain 0.7
+	-- # hpf 1200
+	# delay 0.0 # delaytime "<0.25 0.5>" # delayfeedback 1.0 # lock 1
+
+
+
+d1 $ 
+	someCycles (within (0, 0.5) rev) $ 
+	jux (|* n 1.03) $ 
+	(# pan (rand)) $ 
+	arpg $
+	n ("as4 as4 es4 f4>" + "'min7 7'min7 -12'min7 'min7")
+	# s "pia"
+	# cutoff (slow 4 $ range 400 4300 $ sine)
+	# gain 1.0
+
+hush
+
