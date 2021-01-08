@@ -1,0 +1,91 @@
+
+
+setcps (110/60/4)
+
+xfadeIn "noise" 4 $ silence
+
+xfadeIn "drum" 4 $ silence
+
+xfadeIn "bass" 4 $ silence
+
+p "noise" $
+    (# pan rand) $
+    delaylock 0.6 0.92 (1/16) $
+    degradeBy 0.5 $
+    -- ply 4 $
+    n "0 1 [4 2] <5 6>"
+    |* speed "<1.3 0.8 0.5>"
+    # s "bubble"
+    # gain 1.4
+    # orbit 4
+    # hpf 2300
+    # room 0.2
+
+p "synth" $
+-- xfadeIn "synth" 8 $ 
+    drop 32 28 1200 $
+    -- delaylock 0.6 0.82 "[0.125 0.128]/8" $
+    -- superimpose (slow 2 . (+| note "<12 15 24 31> ~") . (# legato 1.8)) $
+    arp "down" $
+    whenmod 8 4 (|+note "5 12") $
+    note "f4'min*4"
+    # s "dx7.pof"
+    # cutoff (slow 32 $ range 16 70 $ sine)
+    # velocity 3
+    # room 0.5
+    # orbit 2
+
+p "synth" $
+-- xfadeIn "synth" 8 $
+    drop 32 28 1200 $
+    (+| note "0(7,<16 16 16 8>, {0})") $ 
+    note "[g3'min7 g4'min7]/8"
+    # s "dx7.pia"
+    # room 0.3
+    # cutoff (slow 32 $ (range 30 60 sine) )
+    # lfo 0 # lforate (range 0.1 4.2 rand) # lfocutoff 10
+    # vibrato 0.12
+    # hpf 100
+
+p "bass" $
+    drop 32 28 1200 $
+    -- (|+ note (-2)) $
+    every 4 (
+        superimpose (
+            (#pan rand) .
+            (# s "dx7.pof") .
+            sometimes (striate 2) .
+            chunk 8 (fast 2) .
+            chunk 4 (rev) .
+            (+| note "0(11,16)").
+            (+| note ("0 3 7 <5 2> 3 7 7 10 <12 5>" + 12))
+        )
+    ) $
+    note "g3/4"
+    # s "wavetable"
+    # lfo 1 # lforate 0.03 # lfoctf 3 # vibrato 0.2
+    |* gain 0.8
+    # room 0.2
+    # velocity (range 1 20 $ slow 16 tri)
+
+p "drum" $
+-- xfadeIn "drum" 8 $
+    drop 16 14 1200 $
+    somecyclesBy 0.3 (chunk 8 (rev)) $
+    somecyclesBy 0.2 (rip (1/32) 0.97) $
+    stack [
+        s "lfbd:1(<7 4>,16,{0})"
+        # orbit 0
+        # sidechain 1
+        ,
+        -- stutWith 3 (1/8) (|* speed 1.53) $
+        s "lfsd::4(1,8,6)"
+        # orbit 1
+        # room 0.1
+        # gain 0.8
+        ,
+        s "lfhh:4(16,16)"
+        |* gain 0.7
+        |* gain "[1, 0.8]"
+        # orbit 3
+    ]

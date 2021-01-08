@@ -1,0 +1,717 @@
+
+interpolateIn "cpsfun" 8 $ cps (120/4/60)
+
+
+xfadeIn "drums" 8 $ silence
+
+xfadeIn "bass" 4 $ silence
+
+xfadeIn "sample" 8 $ silence
+
+xfadeIn "synth" 8 $ silence
+
+xfadeIn "perc" 8 $ silence
+
+
+
+p "voice" $
+    delaylock (cF 0.9 "3") (cF 0.8 "4") "[0.125 0.2 0.25]/8" $ 
+    s "in"
+    # hpf 500
+    # orbit 4
+
+
+p "sample" $
+    delaylock 0.8 0.32 (1/8) $ 
+    shuffle 8 $
+    striate 16 $
+    s "voice1*2"
+    * speed 0.9
+    # begin 0.1
+    # end (range 0.5 0.8 rand)
+    # hpf 500
+    # orbit 4
+
+
+p "bass" $
+    (# lpf (range 1000 12000 $ cF 1 "1")) $
+    whenmod 16 8 (+ note "-2") $
+    -- (+ note "-5") $ 
+    note "[e3 <e3 g3?>](5,8)"
+    # s "wavetable"
+    # orbit 2
+    # lfo 0 # lforate (range 0.2 8.4 $ rand)
+    # cutoff (slow 16 $ range 20 80 sine)
+    # velocity 2
+    * gain 0.8
+    # legato 1.5
+
+
+p "synth" $
+    (# lpf (range 1000 12000 $ cF 1 "1")) $
+    delaylock 0.9 0.95 (1/16) $
+    whenmod 16 8 (+ note "-2") $
+    note "<3 7 0 <3 0>>*16" 
+    + note ("e3"+12)
+    # s "dx7.pof"
+    * gain 1.2
+    # cutoff 20
+    # room 0.3
+    # velocity 2.3
+    # hpf 400
+    # orbit 3
+
+
+-- p "drums" $
+
+-- xfadeIn "drums" 8 $
+xfadeIn "drums" 4 $
+    -- (# lpf (range 1000 12000 $ cF 1 "1")) $
+    -- somecyclesBy 0.4 (rip (1/32) 0.83) $
+    sometimesBy 0.08 (bckwrds) $
+    stack [
+        someCyclesBy 0.22 (within (0.5,0.75) $ stut 4 0.62 (1/32)) $
+        s "[lfbd(5,16)]"
+        # orbit 0    
+        # sidechain 1
+        ,
+        s "lfsd:1(2,16,4)"
+        ,
+        s "hh"
+        * gain "[1 0.8]*8"
+    ]
+
+
+p "sample" $
+    slow 4 $
+    s "voice1"
+    # hpf 500
+    # orbit 4
+    * speed 0.8
+    * gain 1.0
+
+
+--------------------------------------------------------------------------------
+--- ROMANTISME
+
+
+xfadeIn "drums" 8 $ silence
+
+xfadeIn "bass" 8 $ silence
+
+xfadeIn "sample" 8 $ silence
+
+
+setcps (100/4/60)
+
+interpolateIn "cpsfun" 8 $ cps (100/4/60)
+
+
+xfadeIn "bass" 8$ 
+    drop 16 14 1000 $
+	off (1/8) (|+n 7) $ 
+	n "[a2 c3 d3 f3]/4"
+	# gain 1.3
+	# legato 0.8
+	# s "juno60"
+    # cutoff 75
+	# hpf 2000
+
+
+p "synth" $ 
+
+xfadeIn "synth" 1 $
+    (# lpf (range 1000 12000 $ cF 1 "1")) $
+    drop 16 14 1000 $
+    delaylock 0.5 0.15 (1/16) $
+	-- (|+ n "{0 12 -12}%16") $ 
+	-- off (1/16) (|+ n 12) $ 
+	-- linger 0.75 $ 
+	jux (|+ n "{12 0 -12}%16") $ 
+	slow 4 $
+	arp "updown" $ 
+	n "a4'min*2 c4'maj7*2 d4'min7*2 f4'maj7*2"
+	# s "juno60"
+	# legato 0.8
+	# pan rand
+	# gain 1.2
+    # cutoff 20
+	# orbit 1
+	# room 0.2
+    # hpf 1000
+
+
+p "drums" $
+    (# lpf (range 1000 12000 $ cF 1 "1")) $
+    drop 16 14 1000 $
+    stack [
+    someCyclesBy 0.2 (rip (1/64) 0.93) $
+	within (0,0.2)  (#orbit 3) $
+	sometimesBy 0.2 (spread (stut' 4 (1/16)) [(* speed 2), (# pan 0.2), (# pan 0.8)]) $ 
+	somecycles (within (0.75, 1) ((linger 0.25) . (0.25 <~))) $ 
+	loopAt 1 $ 
+	chop 16 $
+	s "breaks165"
+	# hpf 3000
+    ,
+    s "lfbd:2*4"
+]
+# hpf 4000
+
+
+p "sample" $
+    slow 2 $
+    s "voice1"
+    # hpf 500
+    # orbit 4
+    # gain 0.8
+
+
+
+--------------------------------------------------------------------------------
+-- ANARCHIE
+
+
+interpolateIn "cspfun" 8 $  cps (110/60/4)
+
+
+
+xfadeIn "noise" 4 $ silence
+
+xfadeIn "perc" 4 $ silence
+
+xfadeIn "drums" 4 $ silence
+
+jumpIn' "drums" 1 $ silence
+
+xfadeIn "synth" 4 $ silence
+
+xfadeIn "bass" 4 $ silence
+
+
+-- p "perc" $ 
+clutchIn "perc" 8 $ 
+    (#pan rand) $
+	someCycles (rev . (0.125 <~)) $
+	sometimesBy 0.2 (stut 2 0.9 (1/16)) $  
+	s "tabla(3,8, {0,1})"
+	# n "{0 1 <3 7> 4}%8"
+	# cut 1
+    # hpf 300
+	-- # room 0.217
+    # size 0.4
+    # orbit 0
+	# sdch 1
+
+xfadeIn "drums" 8 $
+    (# lpf (range 1000 12000 $ cF 1 "1")) $
+-- p "drums" $
+    -- somecyclesBy 0.12 (chunk 8 (rev . (0.25 <~) . fast 2)) $ 
+    -- sometimesBy 0.03 (bckwrds) $
+    -- somecyclesBy 0.1 (rip (1/32) 0.9) $
+    drop 32 28 2200 $
+    stack [
+        s "lfbd:2(4, 16, {0})"
+        # gain 1.2
+        # orbit 0
+        # sidechain 1
+        # room 0
+        ,
+        somecycles (within (0,0.5) (stut' 4 (1/32) (|*speed 1.9)))$
+        s "lfsd:1(2,16,[4])"
+        # orbit 1
+        # room 0.2
+        ,
+        s "lfhh:1(16,16)" # gain "[1 0.8]*8" |* gain 0.8
+        # orbit 2
+        ,
+        ( # pan rand) $
+        s "808(3,16, {0, 1?})"
+        # n "{2 2 1 1 2}%7"
+        # room 0.8
+        # orbit 1
+    ]
+
+
+
+-- p "noise" $	
+xfadeIn "noise" 4 $
+	-- somecyclesBy 0.6 (spread scramble [8,16]) $ 
+	(# pan (rand)) $
+    -- foldEvery [2,3,5] (|* speed ("{0.9 1.2 0.8}%8" * "{1.2 3.2 1.3}%1")) $
+    sometimes (|+ n 2) $
+    somecyclesBy 0.3 (striate 4 . ply 4) $
+    somecyclesBy 0.2 (>| release "0.05*24") $
+	s "ade(7,16, {0,3})" # cut 2
+	#n "{4 2 3 <5 2> 6}%16"
+	# orbit 3
+	-- # delay 0.9 # delaytime "<0.125, 0.25>" # lock 1 # delayfeedback "{0.7!7 0.9}%1"
+	-- # lpf (slow 32 $ range 300 2000 $ sine)
+    * gain 0.8
+    -- # hpf 2000
+	# room 0.5
+
+
+p "synth" $
+    (# lpf (range 1000 12000 $ cF 1 "1")) $
+    -- delaylock 0.8 0.76 (1/16) $
+-- xfadeIn "synth" 8 $ 
+-- interpolateIn "synth" 8 $ 
+    -- (|+ note "0") $
+    drop 32 28 1200 $
+	-- superimpose ((|+ n 12) . (|* gain 0.65)) $
+    -- somecyclesBy 0.2 (chunk 8 (rev . fast 1.5)) $
+	-- somecycles (rev) $ 
+	sometimesBy 0.1 (|+ note (7)) $ 
+	stut 2 0.9 (1/16) $
+	-- whenmod 32 16 (bite 16 "{0 2 3 1}%1(7,16,{0,3,5?})") $ 
+    superimpose ((# pan rand) . (+| note "<31 ~ 34 ~ > ~")) $
+    -- ((# pan rand) . (+| n "<31 34 28> <~ 12> ~ <[25 27] ~>")) $
+	arpg $ note "<a3'min7 d3'min7 d4'min7>*4"
+	-- arpg $ n "<d3'maj7 c3'min7 f4'min7>*8"
+	# s "juno60"
+    # attack 0.01
+	# orbit 3
+	# room 0.52
+    -- # size 0.46
+	# velocity (range 3 6 $ slow 16 tri)
+	# cutoff (slow 16 $ range 5 30 $ sine)
+	# resonance 0.4
+    # shape 0.5
+    # lfo 0 # lforate (range 0.3 1.2 rand) # vibrato 0.2 #lfoctf 2
+    -- # hpf 300
+    # size 0.65
+
+
+-- p "bass" $
+xfadeIn "bass" 4 $
+    drop 32 28 1200 $
+    -- off (1/16) (|+ n 12) $
+    -- superimpose (|+ n (-12)) $
+    -- n "[f4 as4]/4"
+    n "<a3 a3 a3 d3 d3 d4>"
+    # s "wavetable"
+    # velocity (range 1 2 $ slow 16 tri)
+	# cutoff (slow 8 $ range 15 60 $ sine)
+    # lfo 1 # lforate (range 0.2 8.9 rand) # lfoctf 5
+    # resonance 0.6
+    # room 0.7
+    # orbit 2
+
+
+
+p "sample" $
+    slow 2 $
+    (# pan (slow 8 sine)) $
+    delaylock (cF 0.6 "3") (cF 0.3 "4") "[0.125 0.2]/4" $ 
+    s "[voice1]/4"
+    # hpf 500
+    # room 0.7
+    # orbit 4
+    * speed 0.75
+
+-------------------------------------------------------------
+
+
+-- p "drums" $
+xfadeIn "drums" 4 $
+-- interpolateIn 2 16 $ 
+    stack [
+        -- s "lfbd:2*4"
+        -- # orbit 0
+        -- # sidechain 1
+        -- # lpf 8200
+    -- ,
+	-- somecyclesBy 0.4 (within (0.75,1) (fast 2)) $
+	-- sometimesBy 0.1 (bckwrds) $ 
+    -- somecyclesBy 0.1 (rip (1/32) 0.92) $
+    -- somecyclesBy 0.5 (chunk 16 (rev . fast 2 . bckwrds)) $
+	loopAt 1 $
+	striate 16 $ 
+	s "breaks125"
+	|* speed 0.8
+	# orbit 0
+	# sdch 1
+	# room 0.2
+	|* gain 0.9
+	-- # delay 0.1 # delaytime (1/16) # lock 1 # delayfeedback 0.5
+	-- # lpf 2300
+    -- # hpf 800
+	-- # hpf 2000
+	-- # phasr 0.2 # phasfb 0.5 # phasdp 0.01
+]
+
+
+
+
+p "synth" $
+-- xfadeIn "synth" 8 $ 
+    drop 32 28 1200 $
+	superimpose (
+		-- (superimpose ((|+ n "[12]") . (|* gain 0.7))) .
+		somecyclesBy 0.6 (superimpose (arp "[up pinkyup down]/3")) .
+		(|+n 12) . (|+ n "<'maj7 'min7 'maj7 'min7>").
+		(ply 8)
+	) $
+    (|+ n "12") $
+	-- n "<c3 ~ d3 ~ a2  ~ e3 ~>"
+	-- n "{c3 c3 c3*2 c3 f3 f3*3 e3 f3 g3 g3 a3*2 b3}%1"
+	-- n "{[c2,c3] c4*2 c3 f2 f3*3 [e2,e3] f3*5}%1"
+    n "[f3 as3]/8"
+	# gain 0.7
+	# s "dx7.pia"
+	# resonance 0.3
+    # lfo 0 # lforate 0.2 # vibrato 0.3 # lfoctf 8
+    # velocity (range 1 10 $ slow 16 tri)
+    # orbit 3
+    # lpf 1200
+	-- # hpf 10
+	# room 0.04
+
+
+
+-- p "bass" $
+xfadeIn "bass" 4 $
+    drop 32 28 1200 $
+    -- off (1/16) (|+ n 12) $
+    -- superimpose (|+ n (-12)) $
+    n "[f4(7,8) as4(7,8)]/4"
+    -- n "<a3 a3 a3 d3 d3 d4>"
+    # s "wavetable"
+    # velocity (range 1 2 $ slow 16 tri)
+	# cutoff (slow 8 $ range 15 60 $ sine)
+    # lfo 1 # lforate (range 0.2 8.9 rand) # lfoctf 5
+    # resonance 0.6
+    # room 0.7
+    # orbit 2
+
+
+
+
+
+--------------------------------------------------------------------------------
+----- FEMINISME
+
+
+
+
+interpolateIn "cpsfun" 4 $ cps (103/4/60)
+
+xfadeIn "noise" 4 $ silence
+
+xfadeIn "drums" 4 $ silence
+
+xfadeIn "bass" 4 $ silence
+
+xfadeIn "synth" 4 $ silence
+
+xfadeIn "sample" 4 $ silence
+
+p "noise" $
+    (# pan rand) $
+    delaylock 0.6 0.92 (1/16) $
+    degradeBy 0.5 $
+    -- ply 4 $
+    n "0 1 [4 2] <5 6>"
+    |* speed "<1.3 0.8 0.5>"
+    # s "bubble"
+    # gain 1.4
+    # orbit 4
+    # hpf 2300
+    # room 0.2
+
+p "synth" $
+    drop 32 28 1200 $
+    -- delaylock 0.6 0.82 "[0.125 0.128]/8" $
+    -- superimpose (slow 2 . (+| note "<12 15 24 31> ~") . (# legato 1.8)) $
+    arp "down" $
+    whenmod 8 4 (|+note "5 12") $
+    note "f4'min*4"
+    # s "dx7.pof"
+    # cutoff (slow 32 $ range 16 70 $ sine)
+    # velocity 3
+    # room 0.5
+    # orbit 2
+
+p "synth" $
+-- xfadeIn "synth" 8 $
+    drop 32 28 1200 $
+    (+| note "0(7,<16 16 16 8>, {0})") $ 
+    note "[g3'min7 g4'min7]/8"
+    # s "dx7.pia"
+    # room 0.3
+    # cutoff (slow 32 $ (range 30 60 sine) )
+    # lfo 0 # lforate (range 0.1 4.2 rand) # lfocutoff 10
+    # vibrato 0.12
+    * gain 0.5
+    # hpf 100
+
+p "bass" $
+    drop 32 28 1200 $
+    -- (|+ note (-2)) $
+    every 2 (
+        superimpose (
+            (#pan rand) .
+            -- (# s "dx7.pof") .
+            sometimes (striate 2) .
+            chunk 8 (fast 2) .
+            chunk 4 (rev) .
+            (+ note "0(11,16)").
+            -- (+| note ("0 3 7 <5 2> 3 7 7 10 <12 5>" + 12))
+        )
+    ) $
+    note "g3/4"
+    # s "wavetable"
+    # lfo 1 # lforate 0.03 # lfoctf 3 # vibrato 0.2
+    |* gain 1.0
+    # room 0.2
+    # cutoff 50
+    # velocity (range 1 20 $ slow 16 tri)
+
+p "drum" $
+-- xfadeIn "drum" 8 $
+    drop 16 14 1200 $
+    somecyclesBy 0.3 (chunk 8 (rev)) $
+    somecyclesBy 0.2 (rip (1/32) 0.97) $
+    stack [
+        s "lfbd:1(<7 4>,16,{0})"
+        # orbit 0
+        # sidechain 1
+        ,
+        stutWith 3 (1/8) (|* speed 1.53) $
+        s "lfsd:4(1,8,6)"
+        # orbit 1
+        # room 0.1
+        # gain 0.8
+        ,
+        s "lfhh:4"
+        |* gain 0.7
+        * gain "[1 0.7]*8"
+        # orbit 3
+    ]
+
+p "sample" $
+    delaylock (cF 0.6 "3") (cF 0.3 "4") "[0.125 0.2]/4" $ 
+    s "[voice1, voice4/2]"
+    # orbit 2
+    # hpf 400
+
+
+
+
+--------------------------------------------------------------------------------
+----- POLICE
+
+
+setcps (105/60/4)
+
+interpolateIn "sample" 4 $ silence
+
+p "noise" $
+	superimpose (|* speed 1.01) $ 
+	off (1/16) (|* speed (-1)) $
+	slow 2 $ 
+	s "chin(3,16, {0, 4, 7})"
+	# n "{1 <4 5 7> <3 2> 9}%6"
+	# gain 0.75
+	# cutoff (slow 32 $ range 200 4000 $ sine)
+	-- |* cutoff (0.9)
+	# orbit 2
+	-- # delay 0.3 # delayfeedback 0.8 # delaytime "[0.25 0.5]" # lock 1
+	-- # delay 0.9 # delayfeedback 1.03 # delaytime "[0.25 0.5 0.75 0.33]" # lock 1
+	# resonance 0.1
+	-- |* speed 1
+	# hpf 3000
+	# pan (rand)
+	# room "0.2"
+
+
+
+p "drums" $
+    (# lpf (range 1000 12000 $ cF 1 "1")) $
+	somecyclesBy 0.6 (chunk 8 (rev . (fast 2))) $ 
+	stack [
+		within (0.1,1) (degradeBy 0.03) $ 
+		stack [
+			s "808bd:4"
+			# gain 1.2
+			# orbit 3 # sdch 1
+			,
+            jux (|* n 1.01) $
+			-- n "{f2 a2 g2 <c3 c3 d3 g3>}%3"
+			-- n "{a2 a2 g2 <c3 c3 d3 g3>}%3"
+			n "<{a2 a2 g2 c3}%5 {g2 g2 d2 c3}%5>"
+			# s "[juno60]"
+			# gain 0.9
+			# legato 1.4
+			|* cutoff (slow 8 $ range 100 200 $ sine)
+			-- # cutoff 1
+			# resonance 0.05
+            # velocity 10
+			-- # hpf 300
+            ,
+            n "<{a2 a2 g2 c3}%5 {g2 g2 d2 c3}%5>"
+            |+ n 12 
+            # s "wavetable"
+            # velocity 10
+		]
+		*| speed "1(7,16, {0,3})"
+		-- # hpf 00
+	,
+        somecyclesBy 0.3 (rip (1/32) 0.95) $ 
+		someCycles (within (0.5,1) (rev)) $ 
+		off (1/16) (
+			(sometimesBy 0.7 (stut 4 0.8 (1/16))) .
+			(|*speed "< 0.8 3.4 7.6>"))
+		 $ 
+		s "[~ 808sd:1] [~ 808sd:1]"
+		# gain 0.9
+	,	
+		somecycles (within (0.75,1) (fast (3/2))) $ 
+		juxBy 0.5 ((1/16) ~>) $ 
+		s "hh*8"
+		# gain "[0.9 0.8]*8"
+		-- # gain 0
+	,
+		off (1/16) (# n 5) $ 
+		s "808:2(3,16, {0, 7, 5})"
+		# gain (range 0.5 0.9 $ rand)
+		# speed "{1.2 2.2 0.8}%8"
+		|* speed "<0.7 0.7 0.7 0.53>"
+		# orbit 0
+		# room 0.2
+]
+
+
+p "sample" $
+    delaylock (cF 0.6 "3") (cF 0.3 "4") "[0.125 0.2]/4" $ 
+    s "[voice1 voice2]"
+    # orbit 2
+    # hpf 400
+
+
+
+--------------------------------------------------------------------------------
+---- ECOLOGIE
+
+
+p "voice" $
+    delaylock (cF 0.6 "3") (cF 0.3 "4") "[0.125 0.2]/8" $ 
+    s "in"
+    # hpf 500
+    # orbit 4
+    -- # fshift "[0,20]"
+
+p "synth" $ 
+    note "<a4'min7 c5'maj7 f4'maj7 e4'min7>"
+    # s "dx7.pof"
+    # orbit 3
+
+p "noise" $
+    n "<0 3 2 5>"
+    # s "birds"
+    * gain 0.8
+
+
+
+--------------------------------------------------------------------------------
+--- ZUCKERBERG
+
+interpolateIn "cpsfun" 8 $ cps (130/60/4)
+
+
+xfadeIn "synth" 8 $ silence
+
+xfadeIn "bass" 16 $ silence
+
+xfadeIn "drums" 16 $ silence
+
+xfadeIn "noise" 16 $ silence
+
+
+p "noise" $
+-- xfadeIn "noise" 8 $ 
+    -- whenmod 16 15 ((delaylock 0.9 0.98 (1/8))) $ 
+    -- jux (* speed 1.02) $
+    -- (# pan rand) $
+    -- every 4 ((# phaserrate 1.2) . (# phasfb 0.3) . (#pan sine)) $ 
+    whenmod 8 4 (|*speed "<1 1.2 1.5 1>") $
+    every 2 (|* speed "<0.5 1 0.8 0.9>") $
+    fast "<2 2 4 4>" $
+    n "{0 3 1 4 3}%5"
+    # s "arpy"
+    |* speed 0.88
+    # speed "0.7 0.86 0.4 0.89"
+    # lpf (range 1900 3400 $ slow 16 sine)
+    -- # resonance 0.1
+    -- # room 0.6
+    # delaytime (1/8)
+    -- # size 0.70
+    # orbit 2
+    # gain 0.6
+    -- # hpf 200
+
+-- p "bass" $ 
+xfadeIn "bass" 8 $
+    drop 16 14 1200 $
+    -- whenmod 32 28 ((# hpf 2000) . (delaylock 0.9 0.86 (1/8))) $ 
+    -- somecyclesBy 0.1 (( within (0.75, 1) $ stutWith 4 (-1/16) (|* gain  0.95)) . (+| note "[0 3 2 5]")) $
+    -- somecyclesBy 0.2 (within (0.5,0.75) $ (
+    --     (# pan rand) . 
+    --     (arp "updown") .
+    --     ply 2 . 
+    --     (+ n ("[24]'dim7"))
+    --     )
+    -- ) $ 
+    -- off (1/4) (+ n (12) ) $
+    -- (+| n "0*2") $ 
+    -- whenmod 32 0 (>| n "d3*8") $
+    note "[f3 e3 b2 d3]/8"
+    # s "wavetable"
+    # velocity (slow 16 $ range 3 20 $ sine)
+    # cutoff (slow 32 $ range 70 40 $ tri)
+    # shape 0.1
+    -- # hpf 10
+    # orbit 3
+    # room 0.4
+    # size 0.8
+    # lfo 0 # lforate (range 0.1 1.2 $ rand)  # vibrato 0.2
+    -- # lpf 1000
+
+-- p "drums" $
+xfadeIn "drums" 4 $
+    drop 16 14 2200 $
+    -- sometimesBy 0.03 (bckwrds) $ 
+    -- sometimesBy 0.3 (|* speed 0.8) $
+    -- somecyclesBy 0.08 (rip (1/64) 0.87) $ 
+    somecyclesBy 0.14 (0.25 <~)  $
+    somecyclesBy 0.12 (0.5 <~)  $
+    stack [
+        -- s "lfbd:2([1 5],16, [0, 4?, 5?, 7?])"
+        s "lfbd:2([1 5], 16, {0,4?, 5?, 7?})"
+        # orbit 0
+        # sidechain 1
+        # gain 1.0
+        # room 0.1
+        ,
+        somecyclesBy 0.2 (stutWith 4 (1/16) ((+ hpf 800) . (* gain 0.9))) $
+        s "lfsd:1(2,16,[4])"
+        # orbit 1
+        # room 0.1
+        ,
+        s "lfhh:1*16"
+        |* gain 0.6
+        |* gain "[1 0.7]*8"
+        # orbit 2
+    ]
+
+
+
+
+--------
+
+
+
+p "drums" $
+    stack [
+       n "0(7,16)" 

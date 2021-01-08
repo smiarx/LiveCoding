@@ -1,0 +1,121 @@
+clutchIn 1 8 $
+    s "tabla(<3 5>,8, {0,1})"
+    # n "{0 2 <3 7> 6}%7"
+    # cut 128
+    # orbit 1
+    # room 0.1
+    # size "<0.75 0.62>"
+    # lpf (slow 16 $ range 600 1400  sine)
+    # resonance 0.3
+    |* gain 0.8
+
+d4 $
+    -- (|+ hpf 10000) $
+    drop 32 28 2300 $
+    somecyclesBy 0.06 (rip (1/16) 0.92) $
+    stack [
+        s "lfbd:2(<7>,16,{0,3})"
+        # orbit 0
+        # sidechain 1
+        # gain 1.2
+        -- ,
+        -- sometimesBy 0.1  bckwrds $
+        -- s "[~ lfsd:1]*2"
+        -- # gain 0.9
+        -- # orbit 2
+        -- # room 0.2
+        ,
+        s "hh*16" # gain "[1 0.8]*8"
+    ]
+    -- # hpf 1800
+
+d2 $
+    (#pan rand )$
+    s "ade(13,32)"
+    # n "{4 3 2 <1 2> 8}%16"
+    # cut 252
+    # gain 0.9
+    |* speed "<0.8 0.8 1.4 0.9>"
+    # orbit 3
+    # phasr 0.3
+    # begin 0.02
+    # release 0.1
+    # delay 0.8 # delaytime "<0.25 0.125 0.25 0.5>" # lock 1 # delayfeedback 0.8
+    # hpf 2000
+
+d1 $
+    drop 32 28 1200 $
+    (|+ up "<0 0 3 3>") $
+    off (1/16) (|+ n 12) $
+    (+| n "0(<7 3 7 9>,16, {0, 2})") $
+    up "<0 0 0 3>"
+    -- up "<f2 f2 f2 gs2>"
+    # s "emubass:8"
+    # gain 1.3
+    -- # velocity (range 10 30 rand)
+    # cutoff (slow 8 $ range 20 43 $ sine)
+    # cut 383
+    # hpf 100
+    # lpf 800
+
+
+d5 $
+    (#pan rand) $
+    n "{1 7 5 6 <12 1>}(7,16)"
+    # s "chin"
+    # speed (range 0.2 0.4 $ rand)
+    # shape 0.9
+    # orbit 4
+    # cut 7373
+    # release 0.2
+    # phasr 10.8 # phasdp 0.2 # phasfb 0.8
+    # hpf 1800
+
+
+
+-- d1 $
+xfadeIn 1 16 $ 
+    (|+ up "[0,24]") $ 
+    (#n "[0 0 3 2 8]/16") $
+    (#pan rand) $
+    degradeBy 0.6 $
+    striate 64 $ 
+    s "emustr*16"
+    |* speed "[0.25 0.5]"
+    -- # cut 1
+    # hold 0.1
+    # attack 0.00
+    # release 0.0
+    # shape 0.4
+    |* gain 0.75
+    # lpf (range 900 3400 $ slow 16 sine)
+    # resonance 0.0
+    # room 0.1
+    # size (range 0.3 0.93 $ rand)
+    # orbit 1
+
+d2 $
+-- xfadeIn 2 16 $ 
+    -- whenmod 16 14 (#hpf 900) $
+    drop 16 14 1200 $
+    somecyclesBy 0.212 (rev . (0.25 <~)) $
+    sometimesBy 0.04 (bckwrds) $
+    somecyclesBy 0.01 (within (0.5,0.75) $ stutWith 4 (1/16) (|*gain 0.8)) $
+    stack [
+        s "lfbd:1(5,16)"
+        # orbit 0
+        |* gain 1.2
+        # sidechain 1
+        ,
+        s "lfhh:1*16"
+        # orbit 2
+        # room 0.2
+        |* gain "[0.8 0.6]*8"
+        |* gain 0.7
+        ,
+        somecycles (rip (1/32) 0.8) $
+        s "[~ lfsd:2]*2"
+        # orbit 2
+    ]
+    -- # hpf 1200
+    # room 0.2

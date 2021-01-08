@@ -1,0 +1,61 @@
+
+d1 $
+    (# pan rand ) $
+    every 4 (shuffle 16) $
+    sometimesBy 0.2 (|* speed "1.2 1.4") $
+    striate "<16 16 32 64>" $
+    s "sugar:1*4"
+    # cut 12831
+    |* speed 0.8
+    # room 0.2
+    # phasr 0.2
+    # orbit 4
+    # lpf (slow 32 $ range 300 3500 $ sine)
+    |* gain 0.8
+    # hpf 800
+
+d2 $
+    whenmod 32 30 (# hpf 900) $
+    somecyclesBy 0.2 (rip (1/28) 0.92) $
+    somecycles (within (0.5,0.75) rev) $
+    sometimesBy 0.05 (bckwrds) $
+    stack [
+        (+| n "0(4,14,[0, 2?, 3?])") $
+        stack [
+            s "lfbd:2"
+            # orbit 0
+            # sidechain 1
+            ,
+            sometimesBy 0.2 ( off (1/14) (|+ n 12)) $
+            n "<g2 a2 f2 cs3>"
+            # s "dx7.bass"
+            # velocity 3.3
+            # cutoff (slow 16 $ range 20 43 $ sine)
+            # legato 4
+            # orbit 1
+        ]
+        , 
+        s "lfsd:2(2,14, 3)"
+        # orbit 3
+        ,
+        s "lfhh:2*14"
+        |* gain 0.6
+        |* gain "[1 0.8]*7"
+        # orbit 3
+    ]
+
+
+d3 $
+    whenmod 32 30 (|+ hpf 900) $
+    somecyclesBy 0.3 (arp "updown" . (+| n "0*7")) $
+    -- superimpose ( (# pan rand) . arp "updown" . (|+ n 12) . (|* gain 0.8) . (+|n "<0 0*3 0 0*5>") ) $
+    (|+ n "<12'maj7 12'min7 12'maj7 12'maj7>") $
+    n "<g2 a2 f2 cs3>"
+    # s "juno60"
+    # cutoff (slow 18.2 $ range 25 43 $ sine)
+    # lfo 0 # lfor (range 0.4 4.3 $ rand) # lfoctf 2 # vibrato 0.12
+    # room 0.3
+    # orbit 2
+    # hpf 500
+    # velocity (range 1 8 $ rand)
+    |* gain 0.9

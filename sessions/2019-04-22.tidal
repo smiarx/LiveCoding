@@ -84,14 +84,14 @@ d1
 		splice 8 "<7 4 <6 7> 8>(3,8)" $ 
 		-- splice 8 "1(3,8)" $ 
 		s "nina" # speed "1"
-		# room 1.9
+		# room 0.2
 		-- # hpf 4200
 		# orbit 1
 		,
-		s "bd:4*2" # orbit 0
+		s "lfbd:4*2" # orbit 0
 		,
 		every 4 (stut' 2  (1/16) ((*speed 1.02).(*gain 0.9)) ) $ 
-		s "[~ [sn:1, cp]]]" # orbit 1
+		s "[~ [lfsd:1, cp]]]" # orbit 1
 		,
 		s "~ hh ~ <hh hh hh hh*5>" # orbit 1
 		-- ,

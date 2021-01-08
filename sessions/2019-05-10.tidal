@@ -34,6 +34,8 @@ d1 $
 
 asap $ lfor 4.4 # lfo 1
 
+setcps (125/60/4)
+
 -- d2 $ 
 xfadeIn 2 4 $
     jux (|* speed 1.04) $

@@ -152,7 +152,7 @@ bass: (
 ).keysValuesDo { |name, params|
 
 	params.use{
-		SynthDef("dx7."++name, {
+		SynthDef(("dx7."++name).postln, {
 
 			var
 			midinote = \midinote.ir(69),
@@ -323,4 +323,15 @@ SynthDef(\plck, {
 
 	Out.ar(out, DirtPan.ar(sig, 2, pan));
 }).add;
-)
+);
+
+
+// live audio input
+SynthDef(\in, { |out, sustain = 1, speed = 1, begin = 0, end = 1, pan, accelerate, offset|
+	var env, sound, rate, phase;
+	env = Env([0,1,1,0], [0.01,0.98,0.01]).kr(timeScale: sustain);
+	sound = SoundIn.ar([0])*env; // stereo in
+	OffsetOut.ar(out,
+		DirtPan.ar(sound, ~dirt.numChannels, pan)
+	)
+}).add;

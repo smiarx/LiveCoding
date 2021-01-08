@@ -30,8 +30,9 @@ d2 $
 			# gain 1.2
 			# orbit 3 # sdch 1
 			,
-			n "{a2 a2 g2 <c3 c3 d3 g3>}%3"
-			-- n "<{a2 a2 g2 c3}%5 {g2 g2 d2 c3}%5>"
+			-- n "{f2 a2 g2 <c3 c3 d3 g3>}%3"
+			-- n "{a2 a2 g2 <c3 c3 d3 g3>}%3"
+			n "<{a2 a2 g2 c3}%5 {g2 g2 d2 c3}%5>"
 			# s "supersaw"
 			# gain 0.9
 			# legato 1.4

@@ -1,0 +1,59 @@
+
+setcps (104/60/4)
+
+p "synth" $
+    superimpose ((# pan rand)  . arp "updown" . (+ note 12)) $
+    note "<a4'min7 d'min7 c'maj7 <f'maj7 ds'dim>>"
+    # s "juno60"
+    # room 0.8
+    # size 0.6    # cutoff (range 23 45 $ slow 16 sine)
+    # orbit 2
+
+p "drums" $ 
+
+xfadeIn "drums" 8 $ 
+    drop 16 14 1200 $
+    somecyclesBy 0.18 (0.25 <~) $ 
+    stack [
+        s "lfbd:2(4,16)"
+        # orbit 9
+        # sidechain 1
+        # room 0.2
+        ,
+        -- sometimes (fast 2) $
+        somecyclesBy 0.2 (rip (1/64) 0.92) $
+        s "lfsd:2(4,16, {0})"
+        # orbit 1 
+        # room 0.1
+        ,
+        s "lfhh(4,16, {2})"
+        # orbit 4
+        # gain 0.7
+    ]
+
+p "bass"  $
+    drop 16 14 1200 $
+    -- whenmod 32 16 (+ note 2) $
+    n "d3/4"
+    # s "wavetable"
+    # gain 1.2
+    # cutoff (range 23 89 $ slow 16 sine) 
+    # velocity 8
+    # orbit 2
+    # room 0.3
+    # lfo 1 # lforate (range 0.3 3.4 $ rand) # lfoctf 20
+
+p "voice" $
+    (* speed "<0.8>") $
+    (#pan rand) $
+    striate 8 $ 
+    (* speed "[1,0.5]") $
+    sometimes (# n "6") $
+    n "<7*4 7*4 2*3 6*10>"
+    # s "chin"
+    # begin 0
+    # end 0.4
+    # room 0.3
+    # orbit 3
+    # size 0.62
+    # hpf 400

@@ -1,0 +1,52 @@
+
+d1 $
+    whenmod 8 4 (|+ n "2") $
+    (+| n "[0'min <0'maj7 0'min7> 0'min7 0'dim]") $
+    n "[a4]/4"
+    # s "juno60"
+    # lfo 0 # lfor (range 0.3 6.4 $ rand) # lfoctf (range 5 18 $ rand)
+    # vibrato 0.1
+    # room 0.2
+    # gain 0.9
+    # cutoff (slow 16 $ range 300 3200 $ rand)
+    # resonance 3.6
+    # delay 0.8 # delaytime 0.25 # delayfeedback 0.5
+    # orbit 4
+
+d3 $
+    whenmod 16 12 (|+ hpf 900) $
+    somecycles (rip (1/16) 0.6) $
+    off (1/16) (|+ n 12) $
+    whenmod 8 4 (|+ n "2") $
+    (|+ n "a3") $
+    -- (|+ n "<a3 [f3 e3] d3 <gs3 as3>>") $
+    s "dx7.bass(3,16, [0, 3?, 5?, 7?])"
+    # cutoff (slow 16 $ range 700 3200 $ rand)
+    # resonance 0.9
+    # orbit 3
+    # gain 1.1
+    -- # velocity (range 1 6 $ slow 8 $ saw)
+    # velocity 2.3
+
+d2 $
+    whenmod 16 12 (|+ hpf 900) $
+    somecycles (rip (1/32) 0.98) $
+    sometimesBy 0.1 (bckwrds) $
+    degradeBy 0.03 $
+    sometimesBy 0.2 (|+ hpf 800) $
+    stack [
+        degradeBy 0.3 $ 
+        s "lfbd:2(3,16, [0, 3?,5?,7?])"
+        # orbit 0
+        # sidechain 1
+        ,
+        somecyclesBy 0.3 (stutWith 8 (1/32) (|* speed 1.4)) $
+        s "[~ lfsd:1]*2"
+        # orbit 1
+        # room 0.2
+        # size 0.6
+        ,
+        s "lfhh:1*16"
+        # gain 0.8
+    ]
+    # phasr 0.7 # phaserdepth 0.8 # phasfb 0.3

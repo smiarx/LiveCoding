@@ -1,0 +1,91 @@
+
+
+
+interpolateIn "cpsfun" 8 $ cps (130/60/4)
+
+
+xfadeIn "synth" 8 $ silence
+
+xfadeIn "bass" 16 $ silence
+
+xfadeIn "drums" 16 $ silence
+
+xfadeIn "noise" 16 $ silence
+
+
+p "noise" $
+-- xfadeIn "noise" 8 $ 
+    -- whenmod 16 15 ((delaylock 0.9 0.98 (1/8))) $ 
+    -- jux (* speed 1.02) $
+    -- (# pan rand) $
+    -- every 4 ((# phaserrate 1.2) . (# phasfb 0.3) . (#pan sine)) $ 
+    -- whenmod 8 4 (|*speed "<1 1.2 1.5 1>") $
+    -- every 2 (|* speed "<0.5 1 0.8 0.9>") $
+    -- fast "<2 2 4 4>" $
+    n "{0 3 1 4 3}%5"
+    # s "arpy"
+    |* speed 0.88
+    # speed "0.7 0.86 0.4 0.89"
+    -- # lpf (range 1900 3400 $ slow 16 sine)
+    -- # resonance 0.1
+    -- # room 0.6
+    # delaytime (1/8)
+    -- # size 0.70
+    # orbit 2
+    # gain 0.6
+    -- # hpf 200
+
+-- p "bass" $ 
+xfadeIn "bass" 8 $
+    -- drop 32 28 1200 $
+    -- whenmod 32 28 ((# hpf 2000) . (delaylock 0.9 0.86 (1/8))) $ 
+    -- somecyclesBy 0.1 (( within (0.75, 1) $ stutWith 4 (-1/16) (|* gain  0.95)) . (+| note "[0 3 2 5]")) $
+    -- somecyclesBy 0.2 (within (0.5,0.75) $ (
+    --     (# pan rand) . 
+    --     (arp "updown") .
+    --     ply 2 . 
+    --     (+ n ("[24]'dim7"))
+    --     )
+    -- ) $ 
+    -- off (1/4) (+ n (12) ) $
+    -- (+| n "0*2") $ 
+    -- whenmod 32 0 (>| n "d3/4") $
+    note "[f3 e3 b2 d3]/8"
+    # s "wavetable"
+    -- # velocity (slow 16 $ range 3 20 $ sine)
+    -- # cutoff (slow 32 $ range 70 40 $ tri)
+    # shape 0.1
+    -- # hpf 10
+    # orbit 3
+    -- # room 0.4
+    # size 0.7
+    # lfo 0 # lforate (range 0.1 1.2 $ rand) 
+    -- # lpf 1000
+
+-- p "drums" $
+xfadeIn "drums" 8 $
+    -- drop 32 28 2200 $
+    -- sometimesBy 0.03 (bckwrds) $ 
+    -- sometimesBy 0.3 (|* speed 0.8) $
+    -- somecyclesBy 0.08 (rip (1/64) 0.87) $ 
+    -- somecyclesBy 0.14 (0.25 <~)  $
+    -- somecyclesBy 0.12 (0.5 <~)  $
+    stack [
+        -- s "lfbd:2([1 5],16, [0, 4?, 5?, 7?])"
+        s "lfbd:2([1 5], 16, {0,4?, 5?, 7?})"
+        # orbit 0
+        # sidechain 1
+        # gain 1.0
+        # room 0.1
+        -- ,
+        -- somecyclesBy 0.2 (stutWith 4 (1/16) ((+ hpf 800) . (* gain 0.9))) $
+        -- s "lfsd:1(2,16,[4])"
+        -- # orbit 1
+        -- # room 0.1
+        -- ,
+        -- s "lfhh:1*16"
+        -- |* gain 0.6
+        -- |* gain "[1 0.7]*8"
+        -- # orbit 4
+    ]
+

@@ -1,0 +1,306 @@
+d1 $ 
+    somecycles (within (0.5,75) $ stut 4 0.8 (1/32)) $
+    arp "updown" $
+    (|+ up "[0'min7,12'min7, 24'min]") $
+    up "<a5 b5>"
+    # release 1.0
+    # legato 1.0
+    # s "emubass:2"
+    |+ up (0)
+    -- # cut 238
+    # lpf (range 400 2000 $ slow 8 $ sine)
+    # resonance 0.03
+    # orbit 4
+    # gain 0.8
+    # room 0.3
+
+
+d1 $
+    somecycles (within (0.5,0.75) $ fast 2) $
+    (# pan rand) $
+    whenmod 16 14 (#hpf 800) $
+    somecycles (scramble 8) $ 
+    -- (|> up "0 3 2 [3 5]") $
+    (|> up "7 7 1 [1 3]") $
+    -- sometimes (|+ n 10) $
+    (#up "<a6 b6>") $
+    somecyclesBy 0.2 (# n (choose [0..15])) $
+    n (run 16)
+    # s "emubass"
+    # cut 1231
+    # room 0.2
+    # orbit 2
+    # lpf (range 400 8300 $ slow 16 $ sine)
+    # resonance 0.1
+    -- # hpf 1800
+
+d2 $
+    whenmod 16 14 (#hpf 1200) $
+    sometimesBy 0.07 (bckwrds) $
+    somecyclesBy 0.2 (rip (1/32) 0.87) $
+    stack [
+        -- s "lfbd:1(5,16, [0,<2 3>, 5?])"
+        s "lfbd*4"
+        # gain 1.3
+        # orbit 0
+        # sidechain 1
+        ,
+        s "[~ lfsd:1]*2"
+        # orbit 1
+        ,
+        s "lfhh:1*16"
+        |* gain "[0.6,1]"
+        |* gain 0.6
+        # orbit 1
+        -- ,
+        -- s "[cp](<4 4 4 7>,16)"
+    ]
+    # phasr 1.2
+    # room 0
+
+setcps (120/60/4)
+
+d4 $
+    (# pan (rand)) $
+    -- fast 12 $ 
+    text "[hello-there how-are-you]/8"
+    -- # begin (range 0.1 0.4 $ rand)
+    -- # release 0.18
+    |* speed (range 0.8 1.2 $ rand)
+    # s "tts"
+    # delay 0.8 # delaytime 0.125 # lock 1 # delayfeedback 0.3
+    # room 0.8
+    # size 0.75
+    # orbit 2
+
+
+setcps (100/60/4)
+
+d8 $
+    bckwrds $
+    bite 8 "[0*4 4*4]" $
+    loopAt 4 $
+    striate 16 $
+    s "jttof"
+    # orbit 1
+    |* speed "[0.5,1]"
+    # room "0.2 0.8"
+    # hold 0.4
+    # release 0.3
+    # size 0.7
+    -- # cut 128
+
+d2 $
+    somecyclesBy 1 (within (0.5,0.75) (stutWith "<16 8 32>" (choose [((-1/64)),(1/16)]) (|* gain 0.86))) $
+    degradeBy 0.07 $
+    loopAt 1 $
+    striate 16 $
+    s "breaks80:2"
+    # orbit 0
+
+d3 $
+    text "<fuck-you asshole eat-my-shit>"
+    # s "tts"
+    |* speed 0.7
+    # gain 1.7
+    # orbit 4
+    # hpf 600
+
+
+d8 $
+-- xfadeIn 8 8 $
+    ((#delay 1)) $
+    jux (|* speed 1.01) $
+    whenmod 16 14 (#hpf 1000) $
+    sometimesBy 0.3 (|+ up 3) $
+    somecyclesBy 0.1 (fast 2) $
+    (|+ up "<0 [0 3*3] 2 2 5 5>") $
+    (#pan rand) $
+    somecycles (within (0.75,1) $ stut 8 0.9 (1/56)) $
+    -- degradeBy 0.1361 $
+    -- somecycles (# n "<6 1 3>") $
+    sometimesBy 0.2 (bckwrds . (#end 0.6)) $
+    n "[4]/2"
+    -- n (somecycles (scramble 7) $ (1/7) <~ run 14)
+    # shape 0.2
+    # s "emusynth"
+    -- # cut 2
+    # gain 0.8
+    # orbit 2
+    # room 0.2
+    # size "[0.5 1.0]/4"
+    # delaytime (1/7) # lock 1 # delayfeedback 0.7
+
+d2 $
+    whenmod 16 14 (#hpf 1000) $
+    somecyclesBy 0.2 (rip (1/28) 0.98) $
+    stack [
+        whenmod 8 7 (const silence) $
+        s "lfbd:2(3,14,[0, 2?])"
+        # orbit 0
+        # sidechain 1
+        ,
+        somecycles (stutWith 3 (1/14) ((|* speed 1.14) . (|* gain 0.8))) $
+        s "lfsd(2,7,5)"
+        # orbit 1
+        ,
+        somecycles (swingBy (1/3) 8) $
+        s "lfhh:1(14,14)"
+        # gain "[0.8, 1]*7"
+        |* gain 0.6
+        # orbit 1
+    ]
+
+d3 $
+    (#pan rand) $
+    -- bite 18 "<1 3 9>*18" $
+    -- striate 18 $
+    text "[eat-my-shit]/4"
+    # s "tts"
+    # orbit 4
+    |* gain 1.9
+    |* speed (range 0.8 1.2 $ rand)
+    |* speed 0.8
+    # delay 0.2 # delaytime (1/7) # lock 1 # delayfeedback 0.7
+    # hpf 600
+    # lpf 1200
+
+
+setcps (140/60/4)
+
+d1 $
+    -- const silence $
+    whenmod 16 14 (#hpf 1000) $
+    sometimesBy 0.3 (|+n "2") $
+    superimpose (|+ n 12) $
+    -- n "<a2 f3 d3 f3>(<3 5>,9, [0,3?])"
+    n "a2(3,9)"
+    # s "dx7.bass"
+    # orbit 3
+    # shape 0.4
+    # gain 0.8
+    # cutoff (range 14 30 $ slow 8 $ sine)
+    # velocity 1.4
+
+d4 $
+-- xfadeIn 4 8 $
+    whenmod 16 14 ((#hpf 200) . (# resonance 3.4) )$
+    -- n "<a3'min7 f3'min7 d3'maj7 f3'maj7>"
+    n "a3'min7/16"
+    # s "juno60"
+    # cutoff (range 15 43 $ slow 8 $ sine)
+    # lfo 0 # lfor 3.4 # vibrato 0.1 # lfoctf 3
+    # velocity 2.4
+    # orbit 4
+    # room 0.2
+    |+ hpf 1200
+    |* gain 0.9
+    # delay 0.8 # delaytime (somecycles (*1) "<0.25>")
+    # lock 1
+    # delayfeedback 0.6
+
+
+d2 $
+-- xfadeIn 2 8 $
+    somecycles (rip (1/9) 0.8) $
+    whenmod 16 14 (#hpf 1000) $
+    stack [
+        -- const silence $
+        -- stutWith 1 (1/9) (|* hpf 2.3) $
+        somecycles (within (0, 0.25) (>|n "0*18")) $
+        s "lfbd:0(4,18)"
+        # orbit 0
+        # sidechain 1
+        # gain 1.2
+        -- # hpf 10
+        ,
+        stutWith 9 (1/9) (|* lpf 0.6) $
+        s "808sd:3(1,9,5)"
+        # gain 0.9
+        # lpf 12000
+        # resonance 0.2
+        # orbit 1
+        ,
+        -- const silence $
+        s "808oh*9"
+        |* gain "[1 0.9 0.8]*3"
+        |* gain 0.6
+        # lpf 8000
+        # orbit 1
+    ]
+
+
+-- d6 $
+xfadeIn 6 8 $
+    whenmod 16 14 (#hpf 800) $
+    somecycles (rip (1/32) 0.8) $
+    stack [
+        s "lfbd:1([3],16, [0,3])"
+        # orbit 0
+        # sidechain 1
+        # gain 0.8
+        |* speed 1.2
+        ,
+        somecyclesBy 0.4 (stutWith 3 (1/16) bckwrds) $
+        somecyclesBy 0.1 (stut 4 0.7 (1/16)) $
+        s "[~ lfsd:1]*2"
+        # orbit 1
+        ,
+        s "lfhh:6*16"
+        |* gain 0.4
+        # orbit 1
+    ]
+    -- # lpf 1000
+
+d8 $
+    whenmod 32 30 (|+ velocity 3) $
+    whenmod 16 14 (#hpf 800) $
+    stack $
+     [
+        -- stut 8 0.8 (1/16) .
+        -- (#s "dx7.bass(2,2)")
+        -- ,
+        -- (+| n "<0'min7 0'maj7>(3,16, [0,3])")
+        -- ,
+        -- degradeBy 0.1 .
+        (somecycles (rev)) .
+        arp "updown" .
+        (|+ n "<[0'min7,12'min7,24'min] [0'maj7, 12'maj7, 24'maj]>").
+        (|* gain 1.0)
+    ]
+    <*>
+    [
+    (|+ n "<0 0 3 0 -4 -4 -4 -3>") $ 
+    n "a3"
+    # velocity (range 1 7.4 $ sine)
+    # s "dx7.pia"
+    # orbit 3
+    # room 0.3
+    # delay 0.7 # delaytime 0.0725 # lock 1 # delayfeedback 0.7
+    ]
+
+
+d7 $
+    somecyclesBy 0.1 ((#delay 1) . (>| n "<2 4>") . (# release 1.0) ) $
+    superimpose (|* speed (-1.01)) $
+    (#pan rand) $
+    degradeBy 0.1 $
+    n "{2 3 <7 5>(3,9) 8*2 <2 9> 3 12}%8"
+    # release 0.1
+    # s "chin"
+    # delaytime 0.125 # lock 1 # delayfeedback 0.87
+    # orbit 2
+    |* speed 0.7
+    # gain 1.2
+    # room 0.2
+    # lpf 3000
+    # phasr 8.4 # phasfb 0.7
+
+
+p "synth"  $
+    note "[c7 ~ d6 ~ ]/4"
+    # s "juno60"
+    # room 0.8
+    # orbit 3
+
+setcps (110/60/4)

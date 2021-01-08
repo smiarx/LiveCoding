@@ -1,0 +1,60 @@
+
+
+interpolateIn "cspfun" 8 $  (102/60/4)
+
+p "synth" $
+    (#pan rand) $ 
+    drop 16 14 (1200) $
+    -- superimpose ((+| note "<36 ~ 31 ~ ~> ") . mono) $
+    (+ n "0*4") $
+    arpg $
+    -- (+ note "0'min7") $
+    note "<a3'min7 a3'min7 f4'maj7 gs3'dim>"
+    # s "juno60"
+    # orbit 1
+    # hpf 500
+    # delay 0.7 # delaytime 0.125 # delayfeedback 0.63 # lock 1
+    # room 0.3
+    # lfo 0 # lforate (range 0.3 2.9 $ rand) # lfoctf 10
+    # vibrato 0.2
+    # cutoff (range 22 58 $ slow 16 $ sine)
+
+p "bass" $
+    drop 16 14 (1200) $
+    (+ note "0(7,16, [0,1?, 7?])") $ 
+    superimpose (+ note (-12)) $
+    note "<a3 a3 f4 gs4>"
+    # s "[wavetable, dx7.bass]"
+    # cutoff (range 22 58 $ slow 16 $ sine)
+    # velocity (range 3 15 $ slow 16 sine) 
+    # room 0.3
+
+p "drums" $
+    drop 16 14 (1200) $
+    sometimesBy 0.02 (bckwrds) $
+    somecyclesBy 0.3 (0.25 <~) $
+    sometimesBy 0.07 (chunk 4 (rev) . fast 2) $
+    somecyclesBy 0.08 (rip (1/32) 0.87) $
+    stack [
+        -- stutWith 2 (1/16) (+ hpf 800) $
+        s "lfbd:2(7,16, [0, 1?, 8?])"
+        # orbit 0
+        # sidechain 1
+        ,
+        s "lfsd:1(2,16,12)"
+        # orbit 3
+        # room 0.7
+        # delay 0.3 #delayfeedback 0.8 # delaytime (1/16) # lock 1
+        ,
+        (# pan rand) $
+        s "hh*16"
+        * gain 0.8
+        # orbit 4
+    ]
+
+
+
+p "voice" $
+    s "chin:12"
+    # orbit 4
+    * speed 0.7

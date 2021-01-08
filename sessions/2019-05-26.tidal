@@ -1,0 +1,139 @@
+d2 $
+    whenmod 16 14 (#hpf 900) $
+    whenmod 4 3 (|+ n 2) $
+    somecyclesBy 0.3 (+| n "0 [0 0 0]") $
+    n "a3'min7"
+    # s "dx7.pia"
+    # lfor 0.6
+    # velocity (range 1 3.4 $ slow 8.42 $ sine)
+    # orbit 1
+    # room 0.3
+
+
+d3 $
+    (|+ n "-4") $
+    whenmod 16 14 (#hpf 900) $
+    sometimes (off (1/16) (|+ n 3)) $
+    (|+ n "<0 0 0 2>") $
+    (|+ n "a2") $
+    s "dx7.bass(7,16)"
+    -- # velocity (range 1 4.4 $ slow 8.42 $ sine)
+    # velocity 5.4
+    # orbit 2
+    # hpf 800
+
+d4 $
+    whenmod 16 14 (#hpf 900) $
+    (|+ n "[-4, 20]") $
+    (# pan rand) $
+    arp "updown" $
+    (+| n "0 0") $
+    (+| n "0'min7 0'maj7") $
+    (|+ n "<0 0 0 2>") $
+    n "[a3]"
+    # s "juno60"
+    # orbit 2
+    # cutoff (range 12 30 $ slow 17.21 $ sine)
+    # velocity 4.3
+    # resonance 2.2
+    # lfo 1 # lfor 5.4
+    # hpf 800
+    |* gain 0.7
+
+
+-- xfadeIn 2 8 $
+d2 $
+    -- every 2 (|* speed 0.5) $
+    (# pan rand) $
+    -- fast 2 $
+    text "[its-time-to-go-now goodbye-everybody]/8"
+    # s "tts"
+    -- # begin (range 0.1 0.4 $ rand)
+    -- # release 0.2
+    |* speed 0.7
+    # delay 0.8 # delaytime "0.125 0.25" # lock 1 # delayfeedback 0.65
+    # orbit 4
+
+setcps (94/60/4)
+
+
+
+d1 $ 
+-- xfadeIn 1 16 $
+    whenmod 16 14 (#hpf 900) $
+    sometimesBy 0.1 (ply 2) $
+    somecyclesBy 0.1 (within (0.75,1) $ stutWith 8 (-(1/32)) (|* gain 0.92)) $
+    sometimesBy 0.04 (bckwrds) $
+    degradeBy 0.05 $
+    loopAt 1 $
+    striate 16 $
+    s "breaks80:2"
+    # orbit 0
+    # sidechain 1
+    |* speed 0.15
+    # cut 1231
+    # hpf 1200
+
+
+d3 $
+-- xfadeIn 3 8 $
+    somecycles (within (0,0.5) $ bite 16 "0*16") $
+    loopAt 4 $
+    striate 32 $
+    s "jttof"
+    # orbit 3
+    -- # hpf 1800
+
+
+d5 $
+    (# pan rand) $
+    -- somecycles (ply 4) $
+    -- whenmod 12 8 (slow 2) $
+    strum 0.05 $
+    n "<[gs2, gs3'maj]*2 [a2, a3'min7]*2>"
+    # s "juno60"
+    |+ n "0.5"
+    # cutoff (range 20 50 $ slow 12 $ sine)
+    # lfo 2 # lfor (range 0.3 6.4 $ rand) # lfoctf 20 # vibrato 0.3
+    # velocity (range 1 8.3 $ rand)
+    # gain 0.8
+    # resonance 2.7
+    # room 0.2
+    # size 0.8
+    # orbit 3
+    -- # hpf 00
+
+
+d3 $
+    (|+ n "<[gs2, gs1] [a2, a1]>") $
+    s "dx7.bass(3,16,[0,1?,3?,4?])"
+    # orbit 2
+    # velocity (range 4.3 20 $ slow 12 $ saw)
+    # lfo 0 # lfor 1.32
+
+
+
+d1 $ 
+-- xfadeIn 1 8 $
+    somecyclesBy 0.1 (within (0.75,1) $ stutWith 8 (-(1/32)) (|* gain 0.82)) $
+    sometimesBy 0.04 (bckwrds) $
+   -- (#hpf 1020) $ 
+    -- fast 2 $
+    stack [
+        stutWith "[2 2 2 4]" (1/16) (|* speed 1.16) $
+        s (slow 1 $ "lfbd:2(4,16)")
+        # orbit 0
+        # sidechain 1
+    ,
+        -- const silence $ 
+        stutWith 8 (1/32) (|* gain 0.89) $
+        s "[~ lfsd:2]*2"
+        # orbit 3
+        ,
+        -- const silence $ 
+        s "lfhh*8"
+        |* gain "[0.6 0.5]*4"
+        |* gain 0.8
+        # orbit 3
+    ]
+

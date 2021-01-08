@@ -1,4 +1,4 @@
-
+setcps (76/60/4)
 
 
 d1 $
@@ -105,7 +105,7 @@ d4 $
 	n "{2(3,4) 1(6,8) [4 5] 7}%3"
 	# s (choose ["sitar", "space"])
 	# cut 1
-	|* speed 0.62
+	|* speed 0.82
 	# pan (slow 8 sine)
 	# hpf 1200
 	# orbit 3

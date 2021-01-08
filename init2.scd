@@ -1,6 +1,6 @@
 (
 var numChannels = 2;
-var numOrbits = 4;
+var numOrbits = 5;
 var ardour = NetAddr("localhost", 3819);
 
 var numlfo=3, lfo;
@@ -16,7 +16,7 @@ var phaserlfo, phaserbus;
 );
 
 s.options.numBuffers = 1024 * 256;
-s.options.memSize = 8192 * 16;
+s.options.memSize = 8192 * 32;
 s.options.maxNodes = 1024 * 32;
 s.options.numOutputBusChannels = numChannels*numOrbits;
 s.options.numInputBusChannels = 2;
@@ -148,6 +148,9 @@ s.waitForBoot {
 	~dirt.addModule('reverb',
 		{ |dirtEvent|
 			ardour.sendMsg("/strip/send/gain", dirtEvent.orbit.orbitIndex+1, 2, (~room ? (-inf)).ampdb);
+			if(~size.notNil){
+				ardour.sendMsg("/strip/plugin/parameter", numOrbits+2, 1, 4, ~size);
+			};
 
 	});
 

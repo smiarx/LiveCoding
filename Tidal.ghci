@@ -1,11 +1,10 @@
 -- Bootstrap tidal
-:script ~/.vim/bundle/vim-tidal/Tidal.ghci
-
--- Extensions
-import Sound.Tidal.Extensions
+:script ~/.vim/pack/plugins/start/vim-tidal/Tidal.ghci
 
 
-let lpf        = Sound.Tidal.Extensions.lpf
+
+let 
+--    lpf        = Sound.Tidal.Extensions.lpf
     lfo        = pI "lfo"
     lforate    = pF "lforate"
     lfor       = lforate
@@ -31,3 +30,13 @@ let scale = getScale (scaleTable ++ [("bayati", [0,1.5,3,5,7,8.5,10]),
 -- TTS
 let text   = pS "text"
 
+
+
+-- Custom functions
+
+let rip b g = within (0.25,0.75) $ slow 2 . stutWith 8 (-b) (|*gain g)
+    bckwrds = (|* speed (-1))
+    drop h l f = whenmod h l (|+ hpf f)
+    cLpf = (#lpf (range 800 12000 $ (cF  1 "7")))
+    cHpf = (#hpf (range 20 4000 $ (cF  1 "8")))
+    delaylock w f t = (# delay w) . (# delayfeedback f) . (# delaytime t) . (# lock 1)

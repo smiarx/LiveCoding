@@ -1,0 +1,135 @@
+
+
+
+d1 $
+    drop 32 28 800 $
+    -- somecyclesBy 0.4 (chunk 8 $ (rev . fast 2) ) $
+    somecyclesBy 0.5 (arp "updown") $
+    jux (|* n 1.03) $
+    superimpose (|+ n 12) $
+    -- whenmod 8 4 (|+n 5) $
+    -- sometimesBy 0.1 (|+ n "<0 3 2>") $
+    -- fast "<2 4 8 4 6>" $
+    -- n "{f3 <fs3 d4> <a3 c4> b3 e3}%2"
+    n "<d3'min7 a3'min7>"
+    # s "[juno60]"
+    # velocity 10
+    # cutoff (slow 32 $ range 10 20 tri)
+    -- # hpf 100
+    # orbit 3
+    # room 0.3
+    # vibrato 0.2
+    # lfoctf (range 5 20 rand)
+    # lfo 0 # lforate (range 0.4 7.4 rand)
+    # hpf 2200
+
+xfadeIn 2 8 $ silence
+
+d2 $
+    drop 32 28 800 $
+    somecyclesBy 0.2 (chunk 7 (rev . fast 2)) $
+    (# pan rand) $
+    drop 32 28 1200 $
+    (|+ n ("[0, -12]")) $
+    every 1 (|+n "<0 7 0 5 4>") $
+    -- arp "up" $ 
+    -- n "{c b'dim d f'maj7 gs}%2"
+    n "a3"
+    # s "[dx7.bass wavetable]"
+    # velocity 20
+    # lfo 1 # lforate (range 0.3 2 rand) 
+    # vibrato 0.3
+    # cutoff 30
+    # lfoctf 10
+    # orbit 3
+    # room 0.2
+
+
+xfadeIn 1 8 $ silence
+
+d1 $ 
+    drop 32 28 1200 $
+    every 1 (|+n "<0 7 0 5 4>") $
+    n "a4'min7"
+    # s "juno60"
+    # cutoff "<10 40 20>"
+    # hpf 300
+
+xfadeIn 3 4 $
+    drop 32 28 1200 $
+    sometimesBy 0.3 (|* speed 0.8) $
+    -- sometimesBy 0.03 (bckwrds) $
+    -- somecyclesBy 0.4 (chunk 7 $ (rev . fast 2) ) $
+    -- somecyclesBy 0.12 (rip (1/32) 0.89) $
+   stack [
+        s "lfbd:2([2,3], 14, [0, 4?, 5?])"
+        # orbit 0
+        # gain 1.2
+        # sidechain 1
+        ,
+        somecyclesBy 0.02 (stutWith 4 (1/32) (|* speed 0.97)) $
+        s "lfsd:1(2, 14, [3])"
+        # orbit 1
+        ,
+        s "lfhh:2*14"
+        |* gain 0.5
+        |* gain "[1 0.8]*0.7"
+        # orbit 1
+   ]
+    |* gain 0.8
+    # phaserrate 0.3
+    # phasfb 0.6
+
+
+d5 $
+    (# pan rand) $
+    (|* speed (range 1.2 0.3 rand)) $
+    striate 4 $
+    s "bottle*14"
+    # release 0.2
+    # delay 0.9 # delaytime "<0.125 0.25>" # delayfeedback "<0.86 0.2>" # lock 1
+    # orbit 2
+    # gain 0.9
+    # hpf 300
+    # lpf 2000
+
+xfadeIn 4 16 $ silence
+
+d4 $
+    (#pan rand) $ 
+    (|* speed (range 0.8 1.2 rand)) $
+    shuffle 16 $ 
+    jux (|*speed 0.8) $
+    striate 32 $ 
+    s "chin"
+    # release 0.06
+    >| n "[0 3 2 6 11]*4"
+    |* speed "<1.8 1.5 1.78 0.87>"
+    # waveloss 0.9
+    # room 0.2
+    # size 0.65
+    # crush 7
+    # hpf 1000
+    # orbit 3
+
+
+d6 $
+    jux (|*speed 1.05) $
+    fast 2 $
+    (|+ up "{-2 0 2 3}%3") $
+    n "{8 1 3 [2 4] 2 3 <6 10>}%7"
+    |* speed "<0.9 0.65>"
+    # s "emubass"
+    # orbit 3
+    # gain 0.8
+    -- # hpf 100
+    # cut 43
+    # orbit 3
+    # room 0.1
+    # waveloss  0.8
+    # crush 7
+
+d7 $
+    s "lfbd:4(4,16)"
+    # orbit 0
+    # sidechain 1

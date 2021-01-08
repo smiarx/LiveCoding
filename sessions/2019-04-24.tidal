@@ -1,7 +1,8 @@
 setcps (95/60/4)
 
 
-d1
+-- d1
+xfadeIn 1 16 
 	$ stack [
 		every 2 (within (0.0,0.5) ((fast 2))) $ 
 		(|* gain (range 0.8 1.1 $ slow 32 sine)) $ 

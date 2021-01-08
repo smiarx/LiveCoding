@@ -8,7 +8,7 @@ d2
 		(*speed 0.97) $
 		slice 8 "[0 1 2 <7 [3 7]>]" $
 		s "bk"
-		# phasr 4.9
+		# phasr 2.9
 		# phasdp 2.9
 ]
 
@@ -17,7 +17,7 @@ d2 $ silence
 hush
 
 
-setcps (85/60/4)
+setcps (78/60/4)
 
 d1
 	$ stack [
@@ -27,7 +27,7 @@ d1
 		# s "supersaw"
 		# pan (slow 4 sine)
 		# legato 0.8 # decay 0.5 # voice 0 # semitone 0 # resonance 0.8 # speed 0.4
-		# room 0.5
+		# room 0.2
 		# orbit 1
 		-- # gain 0.0
 		-- # delay 0.9 # lock 1 # delaytime (1) # delayfeedback 0.99

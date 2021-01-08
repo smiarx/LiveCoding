@@ -15,9 +15,9 @@ d1 $
 	-- # cutoff 600
 	-- # resonance 0.5
 	# gain 0.8
-	# crush 6
+	# crush 10
 	# room ("<0.6 0.7 0.4 0.9>" * 0.8)
-	# hpf 200
+	-- # hpf 200
 
 d2 $
 	sometimesBy 0.7 (off (1/16) (|* speed 1.4)) $ 
@@ -26,13 +26,13 @@ d2 $
 	loopAt 2 $ 
 	splice 16 "{<0> <0 1> <5 3> <4 [7 9]> [10,12] 0 7 [15 12]}%16" $
 	s "{breaks157 breaks165}%24"	
-	# cutoff 1800
-	# hpf 1800
+	-- # cutoff 1800
+	-- # hpf 1800
 	# orbit 2
 
 d4 $ 
 	stack [
-		s "808bd:4(4,16, [0])" # orbit 3 # sdch 1
+		s "808bd:4(2,16, [0])" # orbit 3 # sdch 1
 		# n "{4 3 4 1}%2"
 		# gain 1.2
 		,
